@@ -44,9 +44,11 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     if (nextAppointmentAt !== undefined) data.nextAppointmentAt = nextAppointmentAt ? new Date(nextAppointmentAt) : null;
     if (nextAppointmentNotes !== undefined) data.nextAppointmentNotes = nextAppointmentNotes;
 
+    const prev = await prisma.patientRecord.findUniqueOrThrow({ where: { id } });
     const patient = await prisma.patientRecord.update({ where: { id }, data });
-    await logAction({ userId: session.user.id, username: session.user.name || "", action: "UPDATE", entity: "PatientRecord", entityId: id });
-    logger.info("Patient record updated", { id });
+    const changed = Object.entries(data).filter(([k, v]) => String(prev[k as keyof typeof prev]) !== String(v)).map(([k]) => k).join(", ");
+    await logAction({ userId: session.user.id, username: session.user.name || "", action: "UPDATE", entity: "PatientRecord", entityId: id, details: `${prev.patientName}: changed ${changed}` });
+    logger.info("Patient record updated", { id, patientName: prev.patientName });
     return NextResponse.json(patient);
   } catch (error) {
     logger.error("Failed to update patient", { error });
@@ -62,9 +64,10 @@ export async function DELETE(_request: NextRequest, { params }: { params: Promis
 
   try {
     const { id } = await params;
+    const patient = await prisma.patientRecord.findUniqueOrThrow({ where: { id } });
     await prisma.patientRecord.update({ where: { id }, data: { deletedAt: new Date() } });
-    await logAction({ userId: session.user.id, username: session.user.name || "", action: "DELETE", entity: "PatientRecord", entityId: id });
-    logger.info("Patient record soft-deleted", { id });
+    await logAction({ userId: session.user.id, username: session.user.name || "", action: "DELETE", entity: "PatientRecord", entityId: id, details: `Deleted: ${patient.patientName} (${patient.phone})` });
+    logger.info("Patient record soft-deleted", { id, patientName: patient.patientName });
     return NextResponse.json({ success: true });
   } catch (error) {
     logger.error("Failed to delete patient", { error });

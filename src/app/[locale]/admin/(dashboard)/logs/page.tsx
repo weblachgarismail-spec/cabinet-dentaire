@@ -130,7 +130,7 @@ export default function AdminLogsPage() {
                     </span>
                   </td>
                   <td className="p-3 text-xs opacity-70">{l.entity}{l.entityId ? ` #${l.entityId.slice(0, 8)}` : ""}</td>
-                  <td className="p-3 max-w-[300px] truncate text-xs opacity-60" title={l.details || ""}>{l.details || "—"}</td>
+                  <td className="p-3 max-w-[350px] text-xs" title={l.details || ""}>{l.details || "—"}</td>
                 </tr>
               ))}
             </tbody>

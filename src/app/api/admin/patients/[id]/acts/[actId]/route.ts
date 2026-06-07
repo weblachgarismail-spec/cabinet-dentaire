@@ -14,7 +14,7 @@ export async function DELETE(_request: NextRequest, { params }: { params: Promis
     if (!act) return NextResponse.json({ error: "Medical act not found" }, { status: 404 });
 
     await prisma.medicalAct.delete({ where: { id: actId } });
-    await logAction({ userId: session.user.id, username: session.user.name || "", action: "DELETE", entity: "MedicalAct", entityId: actId });
+    await logAction({ userId: session.user.id, username: session.user.name || "", action: "DELETE", entity: "MedicalAct", entityId: actId, details: `Deleted ${act.actType} for patient ${id}` });
     logger.info("Medical act deleted", { id: actId, patientId: id });
     return NextResponse.json({ success: true });
   } catch (error) {

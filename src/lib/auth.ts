@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "./prisma";
 import bcrypt from "bcryptjs";
 import { logger } from "./logger";
+import { logAction } from "./log-action";
 
 const loginAttempts = new Map<string, { count: number; lastAttempt: number }>();
 
@@ -42,6 +43,7 @@ export const authOptions: NextAuthOptions = {
 
         if (!checkRateLimit(credentials.username)) {
           logger.warn("Rate limit exceeded", { username: credentials.username });
+          await logAction({ userId: "", username: credentials.username, action: "LOGIN", entity: "Admin", details: "Rate limited" });
           throw new Error("RATE_LIMITED");
         }
 
@@ -52,11 +54,13 @@ export const authOptions: NextAuthOptions = {
         if (!admin) {
           recordAttempt(credentials.username);
           logger.warn("Login failed: unknown user", { username: credentials.username });
+          await logAction({ userId: "", username: credentials.username, action: "LOGIN", entity: "Admin", details: "Unknown user" });
           return null;
         }
 
         if (!admin.active) {
           logger.warn("Login failed: inactive account", { username: credentials.username });
+          await logAction({ userId: admin.id, username: credentials.username, action: "LOGIN", entity: "Admin", details: "Inactive account" });
           throw new Error("INACTIVE_ACCOUNT");
         }
 
@@ -64,11 +68,13 @@ export const authOptions: NextAuthOptions = {
         if (!valid) {
           recordAttempt(credentials.username);
           logger.warn("Login failed: wrong password", { username: credentials.username });
+          await logAction({ userId: admin.id, username: credentials.username, action: "LOGIN", entity: "Admin", details: "Wrong password" });
           return null;
         }
 
         loginAttempts.delete(credentials.username);
         logger.info("Login successful", { username: credentials.username });
+        await logAction({ userId: admin.id, username: credentials.username, action: "LOGIN", entity: "Admin", details: "Success" });
 
         return { id: admin.id, name: admin.username, email: admin.username, role: admin.role, displayName: admin.displayName, themeColor: admin.themeColor };
       },

@@ -89,9 +89,10 @@ export async function DELETE(request: NextRequest) {
 
   try {
     const { id } = await request.json();
+    const appt = await prisma.appointment.findUniqueOrThrow({ where: { id } });
     await prisma.appointment.delete({ where: { id } });
-    await logAction({ userId: session.user.id, username: session.user.name || "", action: "DELETE", entity: "Appointment", entityId: id });
-    logger.info("Appointment deleted", { id });
+    await logAction({ userId: session.user.id, username: session.user.name || "", action: "DELETE", entity: "Appointment", entityId: id, details: `Deleted: ${appt.patientName} (${appt.phone})` });
+    logger.info("Appointment deleted", { id, patientName: appt.patientName });
     return NextResponse.json({ success: true });
   } catch (error) {
     logger.error("Failed to delete appointment", { error });
