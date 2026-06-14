@@ -26,12 +26,14 @@ export default function BookingPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [animDir, setAnimDir] = useState<"left" | "right">("right");
 
   const handleDateSelect = useCallback(async (d: string) => {
     setDate(d);
     setTime(null);
     setSlotsLoading(true);
     setSubmitError("");
+    setAnimDir("right");
     try {
       const res = await fetch(`/api/slots?date=${d}`);
       if (!res.ok) throw new Error("Failed to load slots");
@@ -80,119 +82,119 @@ export default function BookingPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-16">
-      <h1 className="mb-8 text-center text-3xl font-bold" style={{ color: "var(--color-primary-dark)" }}>
+      <div className="mb-4 text-center">
+        <span className="inline-block rounded-full px-4 py-1 text-xs font-semibold tracking-widest uppercase" style={{ backgroundColor: "oklch(55% 0.15 340 / 0.1)", color: "var(--color-primary)" }}>
+          {t("title")}
+        </span>
+      </div>
+      <h1 className="mb-2 text-center text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
         {t("title")}
       </h1>
+      <p className="mb-10 text-center text-sm opacity-60">
+        {step === 1 ? "Choisissez une date disponible" : step === 2 ? "Sélectionnez un créneau" : "Complétez vos informations"}
+      </p>
 
       {submitError && (
-        <div className="mb-6 rounded-xl p-4 text-center text-sm text-red-700" style={{ backgroundColor: "#fef2f2" }}>
+        <div className="mb-6 anim-scale-in rounded-xl border border-red-200 p-4 text-center text-sm text-red-700" style={{ backgroundColor: "#fef2f2" }}>
           {submitError}
         </div>
       )}
 
-      <div className="mb-8 flex items-center justify-center gap-2">
+      {/* Progress */}
+      <div className="mb-10 flex items-center justify-center gap-3">
         {[1, 2, 3].map((s) => (
-          <div key={s} className="flex items-center gap-2">
-            <div className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-white ${step >= s ? "" : "opacity-30"}`} style={{ backgroundColor: step >= s ? "var(--color-primary)" : "#ccc" }}>
-              {s}
+          <div key={s} className="flex items-center gap-3">
+            <div className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold transition-all duration-500 ${step === s ? "scale-110 shadow-lg" : step > s ? "scale-100" : "opacity-30"}`}
+              style={{
+                backgroundColor: step >= s ? "var(--color-primary)" : "oklch(88% 0.01 340)",
+                color: step >= s ? "#fff" : "oklch(60% 0.02 340)",
+              }}
+            >
+              {step > s ? (
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+              ) : s}
             </div>
-            {s < 3 && <div className="h-0.5 w-8" style={{ backgroundColor: step > s ? "var(--color-primary)" : "#ccc" }} />}
+            {s < 3 && (
+              <div className="h-0.5 w-10 rounded transition-all duration-500" style={{ backgroundColor: step > s ? "var(--color-primary)" : "oklch(88% 0.01 340)" }} />
+            )}
           </div>
         ))}
       </div>
 
-      {step >= 1 && (
-        <div className="mb-8">
-          <h2 className="mb-4 text-center text-xl font-semibold">{t("step1_title")}</h2>
-          <CalendarPicker selected={date} onSelect={handleDateSelect} />
+      <div className="card-modern overflow-hidden p-6 md:p-8">
+        <div key={step} className={`${step === 1 ? "" : step === 2 ? "anim-slide-in-right" : "anim-slide-in-left"}`}>
+          {step >= 1 && (
+            <div>
+              <h2 className="mb-6 text-center text-xl font-semibold">{t("step1_title")}</h2>
+              <CalendarPicker selected={date} onSelect={handleDateSelect} />
+            </div>
+          )}
+
+          {step >= 2 && (
+            <div>
+              <h2 className="mb-6 text-center text-xl font-semibold">{t("step2_title")}</h2>
+              <TimeSlotPicker slots={slots} selected={time} onSelect={(t) => { setAnimDir("left"); setTime(t); setStep(3); }} loading={slotsLoading} />
+            </div>
+          )}
         </div>
-      )}
 
-      {step >= 2 && (
-        <div className="mb-8">
-          <h2 className="mb-4 text-center text-xl font-semibold">{t("step2_title")}</h2>
-          <TimeSlotPicker slots={slots} selected={time} onSelect={(t) => { setTime(t); setStep(3); }} loading={slotsLoading} />
-        </div>
-      )}
+        {step >= 3 && time && (
+          <div>
+            <h2 className="mb-2 text-center text-xl font-semibold">{t("step3_title")}</h2>
+            <div className="mb-6 rounded-xl p-4 text-center" style={{ backgroundColor: "oklch(55% 0.15 340 / 0.08)" }}>
+              <p className="text-sm opacity-70">{t("slot_selected")}</p>
+              <p className="mt-1 text-lg font-bold" style={{ color: "var(--color-primary)" }}>{date} — {time}</p>
+            </div>
 
-      {step >= 3 && time && (
-        <div className="rounded-xl p-6 shadow-sm" style={{ backgroundColor: "#fff" }}>
-          <h2 className="mb-4 text-center text-xl font-semibold">{t("step3_title")}</h2>
-          <p className="mb-4 text-center text-sm opacity-60">
-            {t("slot_selected")} : {date} à {time}
-          </p>
+            <div className="space-y-4">
+              {(["name", "phone", "email", "city"] as const).map((field) => (
+                <div key={field}>
+                  {field === "name" && (
+                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder={t("form_name")} className="input-modern" style={{ borderColor: errors.name ? "#ef4444" : undefined }} />
+                  )}
+                  {field === "phone" && (
+                    <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder={t("form_phone")} className="input-modern" style={{ borderColor: errors.phone ? "#ef4444" : undefined }} />
+                  )}
+                  {field === "email" && (
+                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t("form_email")} className="input-modern" />
+                  )}
+                  {field === "city" && (
+                    <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder={t("form_city")} className="input-modern" style={{ borderColor: errors.city ? "#ef4444" : undefined }} />
+                  )}
+                  {errors[field] && <p className="mt-1 text-xs text-red-500">{errors[field]}</p>}
+                </div>
+              ))}
 
-          <div className="space-y-4">
-            <div>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder={t("form_name")}
-                className="w-full rounded-lg border p-3 outline-none transition-colors focus:border-2"
-                style={{ borderColor: errors.name ? "#ef4444" : "#d1d5db", ...(errors.name ? { borderColor: "#ef4444" } : {}) }}
-              />
-              {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
-            </div>
-            <div>
-              <input
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder={t("form_phone")}
-                className="w-full rounded-lg border p-3 outline-none transition-colors focus:border-2"
-                style={{ borderColor: errors.phone ? "#ef4444" : "#d1d5db" }}
-              />
-              {errors.phone && <p className="mt-1 text-xs text-red-500">{errors.phone}</p>}
-            </div>
-            <div>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder={t("form_email")}
-                className="w-full rounded-lg border p-3 outline-none transition-colors focus:border-2"
-                style={{ borderColor: "#d1d5db" }}
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                placeholder={t("form_city")}
-                className="w-full rounded-lg border p-3 outline-none transition-colors focus:border-2"
-                style={{ borderColor: errors.city ? "#ef4444" : "#d1d5db" }}
-              />
-              {errors.city && <p className="mt-1 text-xs text-red-500">{errors.city}</p>}
-            </div>
-            <div>
               <textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder={t("form_notes")}
                 rows={3}
-                className="w-full resize-none rounded-lg border p-3 outline-none transition-colors focus:border-2"
-                style={{ borderColor: "#d1d5db" }}
+                className="input-modern resize-none"
               />
-            </div>
 
-            <label className="flex items-start gap-2 text-xs opacity-70">
-              <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5" />
-              <span>{t("form_consent")} <Link href="/privacy" className="underline">{t("form_consent_link")}</Link></span>
-            </label>
-            {errors.consent && <p className="text-xs text-red-500">{errors.consent}</p>}
-            <button
-              onClick={handleSubmit}
-              disabled={submitting}
-              className="w-full rounded-lg px-6 py-3 font-semibold text-white transition-transform hover:scale-[1.02] disabled:opacity-60"
-              style={{ backgroundColor: "var(--color-primary)" }}
-            >
-              {submitting ? "..." : t("form_submit")}
-            </button>
+              <label className="flex cursor-pointer items-start gap-2.5 text-xs opacity-70 hover:opacity-100">
+                <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-4 w-4 rounded" style={{ accentColor: "var(--color-primary)" }} />
+                <span>{t("form_consent")} <Link href="/privacy" className="font-medium underline">{t("form_consent_link")}</Link></span>
+              </label>
+              {errors.consent && <p className="text-xs text-red-500">{errors.consent}</p>}
+
+              <button
+                onClick={handleSubmit}
+                disabled={submitting}
+                className="btn-primary w-full justify-center text-base"
+              >
+                {submitting ? (
+                  <span className="flex items-center gap-2">
+                    <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>
+                    {t("form_submit")}...
+                  </span>
+                ) : t("form_submit")}
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
