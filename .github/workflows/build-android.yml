@@ -36,7 +36,7 @@ jobs:
         run: mkdir -p out
 
       - name: Sync Capacitor
-        run: npx cap sync android
+        run: npx @capacitor/cli sync android
 
       - name: Build APK
         run: |
