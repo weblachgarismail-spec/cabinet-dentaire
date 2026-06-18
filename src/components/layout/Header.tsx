@@ -44,7 +44,10 @@ export function Header({ navLabels }: Props) {
   return (
     <header className={`glass sticky top-0 z-50 transition-all duration-300 ${scrolled ? "shadow-sm" : ""}`}>
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <Link href="/" className="text-xl font-bold transition-opacity hover:opacity-80" style={{ color: "var(--color-primary)" }}>
+        <Link href="/" className="flex items-center gap-2 text-xl font-bold transition-opacity hover:opacity-80" style={{ color: "var(--color-primary)" }}>
+          <svg viewBox="0 0 24 24" className="h-7 w-7 anim-tooth-glow" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/>
+          </svg>
           <span className="hidden sm:inline">Cabinet Dentaire</span>
           <span className="sm:hidden">Cabinet</span>
         </Link>

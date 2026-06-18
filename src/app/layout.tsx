@@ -3,8 +3,8 @@ import type { Viewport, Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Cabinet Gynécologique El Jadida",
-  description: "Cabinet Gynécologique El Jadida - Soins gynécologiques de qualité",
+  title: "Cabinet Dentaire [ville]",
+  description: "Cabinet Dentaire [ville] - Soins dentaires de qualité pour toute la famille",
   icons: { icon: "/favicon.ico" },
 };
 

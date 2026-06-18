@@ -16,13 +16,17 @@ export default async function AboutPage({ params }: Props) {
       {/* ── Hero ── */}
       <section className="relative flex min-h-[60vh] items-center justify-center overflow-hidden px-4 text-center">
         <img
-          src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=1400&q=80"
+          src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=1400&q=80"
           alt=""
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6))" }} />
-        <div className="anim-float absolute -right-16 -top-16 text-[200px] opacity-[0.06]">✚</div>
-        <div className="anim-float absolute -bottom-20 -left-20 text-[250px] opacity-[0.06]" style={{ animationDelay: "2s" }}>✚</div>
+        <div className="anim-float absolute -right-16 -top-16 opacity-[0.06]">
+          <svg viewBox="0 0 24 24" className="h-[200px] w-[200px]" fill="none" stroke="var(--color-primary)" strokeWidth="1.5"><path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/></svg>
+        </div>
+        <div className="anim-float absolute -bottom-20 -left-20 opacity-[0.06]" style={{ animationDelay: "2s" }}>
+          <svg viewBox="0 0 24 24" className="h-[250px] w-[250px]" fill="none" stroke="var(--color-primary-dark)" strokeWidth="1.5"><path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/></svg>
+        </div>
         <div className="relative z-10 max-w-2xl">
           <div className="anim-fade-in-up mx-auto mb-6 h-32 w-32 overflow-hidden rounded-full border-4 shadow-lg" style={{ borderColor: "var(--color-primary-light)" }}>
             <img
@@ -43,7 +47,7 @@ export default async function AboutPage({ params }: Props) {
         <div className="anim-fade-in-up flex flex-col items-center gap-10 md:flex-row md:items-start">
           <div className="h-72 w-72 shrink-0 overflow-hidden rounded-2xl shadow-md">
             <img
-              src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80"
+              src="https://images.unsplash.com/photo-1629909615184-74f495363b67?w=400&q=80"
               alt={t("photo_alt")}
               className="h-full w-full object-cover"
             />
@@ -138,8 +142,12 @@ export default async function AboutPage({ params }: Props) {
 
       {/* ── CTA ── */}
       <section className="relative px-4 py-20 text-center" style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))" }}>
-        <div className="anim-float absolute -right-10 -top-10 text-[150px] opacity-[0.06] text-white">✚</div>
-        <div className="anim-float absolute -bottom-10 -left-10 text-[180px] opacity-[0.06] text-white" style={{ animationDelay: "2.5s" }}>✚</div>
+        <div className="anim-float absolute -right-10 -top-10 opacity-[0.06]">
+          <svg viewBox="0 0 24 24" className="h-[150px] w-[150px]" fill="currentColor" style={{ color: "#fff" }}><path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/></svg>
+        </div>
+        <div className="anim-float absolute -bottom-10 -left-10 opacity-[0.06]" style={{ animationDelay: "2.5s" }}>
+          <svg viewBox="0 0 24 24" className="h-[180px] w-[180px]" fill="currentColor" style={{ color: "#fff" }}><path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/></svg>
+        </div>
         <div className="relative mx-auto max-w-xl">
           <h2 className="mb-4 text-3xl font-bold text-white">{t("cta_title")}</h2>
           <p className="mb-8 text-lg text-white/80">{t("cta_desc")}</p>
@@ -148,7 +156,7 @@ export default async function AboutPage({ params }: Props) {
             className="inline-block rounded-full bg-white px-8 py-3 font-semibold transition-transform hover:scale-105"
             style={{ color: "var(--color-primary)" }}
           >
-            {locale === "fr" ? "Prendre un rendez-vous" : "احجزي موعدًا"}
+            {locale === "fr" ? "Prendre un rendez-vous" : "احجز موعدًا"}
           </Link>
         </div>
       </section>

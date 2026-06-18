@@ -26,7 +26,7 @@ export default withSentryConfig(withNextIntl(nextConfig), {
 
   org: "free-ti",
 
-  project: "cabinet-gyneco",
+  project: "cabinet-dentaire",
 
   // Only print logs for uploading source maps in CI
   silent: !process.env.CI,
