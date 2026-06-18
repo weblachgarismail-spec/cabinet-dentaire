@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { getTranslations } from "next-intl/server";
 import { ToastProvider } from "@/components/ui/Toast";
+import { AdminSidebar } from "@/components/layout/AdminSidebar";
 
 type Props = { children: React.ReactNode; params: Promise<{ locale: string }> };
 
@@ -14,28 +14,17 @@ export default async function AdminLayout({ children, params }: Props) {
     redirect(locale === "fr" ? "/gestion" : `/${locale}/gestion`);
   }
 
-  const t = await getTranslations({ locale, namespace: "admin" });
-  const role = (session?.user as { role?: string })?.role || "";
-  const themeColor = (session?.user as { themeColor?: string })?.themeColor || "#8B5CF6";
-  const displayName = (session?.user as { displayName?: string })?.displayName || session.user?.name || "";
+  const toothSvg = (
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ color: "var(--color-primary)" }}>
+      <path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/>
+    </svg>
+  );
 
   return (
     <ToastProvider>
-    <div className="mx-auto max-w-7xl px-4 py-8" style={{ "--theme-color": themeColor } as React.CSSProperties}>
-      {session && (
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b pb-4 text-xs" style={{ borderColor: "oklch(88% 0.01 340)" }}>
-          <div className="flex items-center gap-2">
-            <span className="rounded-full px-2.5 py-0.5 font-medium text-white" style={{ backgroundColor: role === "SUPER_ADMIN" ? "#8b5cf6" : role === "SECRETARY" ? "#3b82f6" : "#10b981" }}>
-              {role === "SUPER_ADMIN" ? t("role_super_admin") : role === "SECRETARY" ? t("role_secretary") : t("role_doctor")}
-            </span>
-            <span className="opacity-60">{displayName}</span>
-          </div>
-          <a href={`/${locale}/admin/profile`} className="font-medium underline transition-opacity hover:opacity-70" style={{ color: "var(--color-primary)" }}>
-            {t("profile_nav")}
-          </a>
-        </div>
-      )}
-      {children}
+    <div className="flex min-h-screen">
+      <AdminSidebar clinicName="Cabinet Dentaire" logoSvg={toothSvg} />
+      <main className="flex-1 overflow-x-auto px-4 py-8 md:px-8">{children}</main>
     </div>
     </ToastProvider>
   );
