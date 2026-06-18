@@ -23,16 +23,40 @@ function generateTimeSlots(cfg: {
   slotDuration: number;
 }): string[] {
   const slots: string[] = [];
+  const pad = (n: number) => n.toString().padStart(2, "0");
+
   const addSlots = (start: number, end: number) => {
-    for (let h = start; h < end; h++) {
-      for (let m = 0; m < 60; m += cfg.slotDuration) {
-        slots.push(`${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`);
-      }
+    let totalMin = start * 60;
+    const endMin = end * 60;
+    while (totalMin + cfg.slotDuration <= endMin) {
+      slots.push(`${pad(Math.floor(totalMin / 60))}:${pad(totalMin % 60)}`);
+      totalMin += cfg.slotDuration;
     }
   };
+
   addSlots(cfg.workStartAM, cfg.workEndAM);
   addSlots(cfg.workStartPM, cfg.workEndPM);
   return slots;
+}
+
+function getMoroccoNow(): { hours: number; minutes: number } {
+  const now = new Date();
+  const utcMin = now.getUTCHours() * 60 + now.getUTCMinutes();
+  const localMin = (utcMin + 60) % 1440; // Morocco is UTC+1 year-round
+  return { hours: Math.floor(localMin / 60), minutes: localMin % 60 };
+}
+
+function isToday(dateStr: string): boolean {
+  const now = new Date();
+  const y = now.getUTCFullYear();
+  const m = String(now.getUTCMonth() + 1).padStart(2, "0");
+  const d = String(now.getUTCDate()).padStart(2, "0");
+  return dateStr === `${y}-${m}-${d}`;
+}
+
+function timeToMinutes(t: string): number {
+  const [h, m] = t.split(":").map(Number);
+  return h * 60 + m;
 }
 
 export async function getAvailableSlots(date: string) {
@@ -51,7 +75,14 @@ export async function getAvailableSlots(date: string) {
 
   const cfg = await getConfig();
   const bookedTimes = new Set(appointments.map((a) => a.time));
-  return generateTimeSlots(cfg).filter((t) => !bookedTimes.has(t));
+  const now = getMoroccoNow();
+  const nowMinutes = now.hours * 60 + now.minutes;
+
+  return generateTimeSlots(cfg).filter((t) => {
+    if (bookedTimes.has(t)) return false;
+    if (isToday(date) && timeToMinutes(t) <= nowMinutes) return false;
+    return true;
+  });
 }
 
 export async function createAppointment(data: {

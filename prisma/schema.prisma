@@ -60,6 +60,8 @@ model Appointment {
   createdAt        DateTime @default(now())
 
   comments         AppointmentComment[]
+
+  @@unique([date, time])
 }
 
 model PatientRecord {

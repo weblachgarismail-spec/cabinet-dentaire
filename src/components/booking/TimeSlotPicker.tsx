@@ -7,10 +7,31 @@ type Props = {
   selected: string | null;
   onSelect: (time: string) => void;
   loading: boolean;
+  selectedDate?: string | null;
 };
 
-export function TimeSlotPicker({ slots, selected, onSelect, loading }: Props) {
+function isToday(dateStr: string): boolean {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, "0");
+  const d = String(now.getDate()).padStart(2, "0");
+  return dateStr === `${y}-${m}-${d}`;
+}
+
+function timeToMinutes(t: string): number {
+  const [h, m] = t.split(":").map(Number);
+  return h * 60 + m;
+}
+
+export function TimeSlotPicker({ slots, selected, onSelect, loading, selectedDate }: Props) {
   const locale = useLocale();
+
+  const now = new Date();
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+  const visibleSlots = selectedDate && isToday(selectedDate)
+    ? slots.filter((t) => timeToMinutes(t) > nowMinutes)
+    : slots;
 
   if (loading) {
     return (
@@ -20,13 +41,13 @@ export function TimeSlotPicker({ slots, selected, onSelect, loading }: Props) {
     );
   }
 
-  if (slots.length === 0) {
+  if (visibleSlots.length === 0) {
     return <p className="py-8 text-center opacity-60">{locale === "ar" ? "لا توجد أوقات متاحة" : "Aucun créneau disponible"}</p>;
   }
 
   return (
     <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
-      {slots.map((time) => (
+      {visibleSlots.map((time) => (
         <button
           key={time}
           onClick={() => onSelect(time)}

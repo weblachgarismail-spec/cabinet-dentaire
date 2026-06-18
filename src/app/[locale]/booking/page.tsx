@@ -133,7 +133,7 @@ export default function BookingPage() {
           {step >= 2 && (
             <div>
               <h2 className="mb-6 text-center text-xl font-semibold">{t("step2_title")}</h2>
-              <TimeSlotPicker slots={slots} selected={time} onSelect={(t) => { setAnimDir("left"); setTime(t); setStep(3); }} loading={slotsLoading} />
+              <TimeSlotPicker slots={slots} selected={time} selectedDate={date} onSelect={(t) => { setAnimDir("left"); setTime(t); setStep(3); }} loading={slotsLoading} />
             </div>
           )}
         </div>
