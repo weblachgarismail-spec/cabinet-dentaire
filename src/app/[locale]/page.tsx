@@ -25,7 +25,7 @@ export default async function HomePage({ params }: Props) {
 
         <div className="relative z-10 mx-auto max-w-3xl px-4 text-center">
           <div className="anim-fade-in-up mb-6 inline-block rounded-full px-4 py-1.5 text-xs font-medium tracking-wide uppercase" style={{ backgroundColor: "oklch(55% 0.15 340 / 0.1)", color: "var(--color-primary)" }}>
-            Cabinet Gynécologique El Jadida
+            Cabinet Dentaire El Jadida
           </div>
           <h1 className="anim-fade-in-up anim-delay-1 mb-6 text-4xl font-extrabold leading-tight md:text-6xl" style={{ color: "var(--color-primary-dark)" }}>
             {t("title")}

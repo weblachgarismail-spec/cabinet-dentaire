@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.cabinet.gyneco',
-  appName: 'Cabinet Gynéco',
+  appId: 'com.cabinet.dentiste',
+  appName: 'Cabinet Dentaire',
   webDir: 'out',
   server: {
     // Dev: http://localhost:3000 — Prod: remplacer par l'URL Vercel

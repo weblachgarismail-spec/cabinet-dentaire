@@ -3,12 +3,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --color-primary: oklch(55% 0.15 340);
-  --color-primary-dark: oklch(45% 0.15 340);
-  --color-primary-light: oklch(70% 0.12 340);
-  --color-accent: oklch(60% 0.1 180);
-  --color-bg: oklch(98% 0.01 340);
-  --color-text: oklch(20% 0.01 340);
+  --color-primary: oklch(55% 0.13 200);
+  --color-primary-dark: oklch(45% 0.13 200);
+  --color-primary-light: oklch(70% 0.10 200);
+  --color-accent: oklch(60% 0.1 160);
+  --color-bg: oklch(98% 0.01 200);
+  --color-text: oklch(20% 0.01 200);
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 

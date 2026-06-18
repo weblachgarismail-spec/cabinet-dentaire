@@ -10,27 +10,27 @@
         "lang": "العربية"
     },
     "home": {
-        "title": "Cabinet Gynécologique",
-        "subtitle": "Dr. [Nom] - Gynécologue Obstétricienne à El Jadida",
-        "description": "Soins gynécologiques de qualité dans un cadre chaleureux et professionnel.",
+        "title": "Cabinet Dentaire",
+        "subtitle": "Dr. [Nom] - Chirurgien-Dentiste à El Jadida",
+        "description": "Soins dentaires de qualité dans un cadre chaleureux et professionnel.",
         "cta_booking": "Prendre un rendez-vous",
         "cta_contact": "Nous contacter",
         "features_title": "Pourquoi nous choisir ?",
         "features": [
             {
-                "title": "Écoute et bienveillance",
-                "desc": "Un accompagnement personnalisé à chaque étape de votre vie. Chaque patiente bénéficie d'une oreille attentive et d'un suivi sur mesure dans un cadre rassurant et confidentiel.",
-                "img": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&q=80"
+                "title": "Soins en douceur",
+                "desc": "Une approche sans douleur grâce à nos techniques modernes d'anesthésie et notre matériel de dernière génération.",
+                "img": "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=400&q=80"
             },
             {
                 "title": "Équipement moderne",
-                "desc": "Matériel de pointe pour des diagnostics précis. Notre cabinet est équipé des dernières technologies en imagerie médicale et en analyses gynécologiques.",
-                "img": "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=400&q=80"
+                "desc": "Matériel de pointe pour des diagnostics précis et des soins optimaux. Imagerie numérique, laser dentaire et stérilisation avancée.",
+                "img": "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=400&q=80"
             },
             {
-                "title": "Hygiène et sécurité",
-                "desc": "Des normes strictes pour votre sécurité. La stérilisation et la protection de nos patientes sont au cœur de notre pratique quotidienne.",
-                "img": "https://images.unsplash.com/photo-1551076805-e1869033e561?w=400&q=80"
+                "title": "Urgences dentaires",
+                "desc": "Service d'urgence pour les cas aigus : douleurs, abcès, traumatismes. Consultation rapide sous 24h.",
+                "img": "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=400&q=80"
             }
         ],
         "stats": [
@@ -52,25 +52,25 @@
             }
         ],
         "services_title": "Nos Services",
-        "services_desc": "Des soins complets pour la santé des femmes, de l'adolescence à la ménopause.",
-        "cta_section_title": "Prête pour votre prochain rendez-vous ?",
+        "services_desc": "Des soins complets pour votre santé bucco-dentaire, du diagnostic à la chirurgie.",
+        "cta_section_title": "Prêt pour votre prochain rendez-vous ?",
         "cta_section_desc": "Réservez dès maintenant une consultation dans notre cabinet à El Jadida."
     },
     "about": {
         "title": "À propos du Dr. [Nom]",
-        "subtitle": "Gynécologue obstétricienne à El Jadida",
+        "subtitle": "Chirurgien-Dentiste à El Jadida",
         "photo_alt": "Photo du Dr. [Nom]",
         "paragraphs": [
-            "Le Dr. [Nom] est gynécologue obstétricienne diplômée de la Faculté de Médecine de Casablanca, avec plus de 15 ans d'expérience en cabinet et en milieu hospitalier.",
-            "Passionnée par la santé des femmes, elle offre des soins complets allant de l'adolescence à la ménopause, avec une approche fondée sur l'écoute, le respect et la confidentialité.",
+            "Le Dr. [Nom] est chirurgien-dentiste diplômé de la Faculté de Médecine Dentaire de Casablanca, avec plus de 15 ans d'expérience en cabinet et en milieu hospitalier.",
+            "Passionné par la santé bucco-dentaire, il offre des soins complets allant du détartrage à la chirurgie implantaire, avec une approche fondée sur l'écoute, la douceur et la confiance.",
             "Le cabinet est situé au cœur d'El Jadida, dans un espace moderne et accessible."
         ],
         "approach_title": "Ma philosophie",
         "approach_items": [
             {
                 "icon": "♥",
-                "title": "Bienveillance",
-                "desc": "Chaque patiente est accueillie sans jugement, dans un climat de confiance et de respect mutuel."
+                "title": "Soins sans douleur",
+                "desc": "Chaque patient est traité avec douceur, en utilisant les techniques les moins invasives possibles."
             },
             {
                 "icon": "✚",
@@ -79,13 +79,13 @@
             },
             {
                 "icon": "♡",
-                "title": "Accompagnement global",
-                "desc": "Suivi personnalisé à chaque étape de la vie, de l'adolescence à la ménopause."
+                "title": "Prévention",
+                "desc": "Le meilleur des soins, c'est celui qu'on n'a pas besoin de faire. L'accent est mis sur la prévention et l'éducation."
             },
             {
                 "icon": "✚",
-                "title": "Confidentialité",
-                "desc": "Un cadre sécurisé et discret où votre intimité est préservée en toutes circonstances."
+                "title": "Accessibilité",
+                "desc": "Des tarifs transparents et des solutions de paiement adaptées à tous."
             }
         ],
         "journey_title": "Mon parcours",
@@ -130,40 +130,40 @@
         "title": "Nos Services",
         "items": [
             {
-                "title": "Consultations gynécologiques",
-                "desc": "Suivi annuel, contraception, bilan de santé.",
+                "title": "Consultations générales",
+                "desc": "Détartrage, traitement des caries, soins conservateurs.",
                 "slug": "consultations",
-                "img": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&q=80"
+                "img": "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=400&q=80"
             },
             {
-                "title": "Suivi de grossesse",
-                "desc": "Échographies, consultations prénatales, préparation à l'accouchement.",
-                "slug": "suivi-grossesse",
-                "img": "https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=400&q=80"
+                "title": "Chirurgie dentaire",
+                "desc": "Extractions, dents de sagesse, implants dentaires.",
+                "slug": "chirurgie",
+                "img": "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=400&q=80"
             },
             {
-                "title": "Échographies",
-                "desc": "Échographies pelviennes, obstétricales et mammaires.",
-                "slug": "echographies",
-                "img": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80"
+                "title": "Orthodontie",
+                "desc": "Traitement des malpositions dentaires, bagues, aligneurs invisibles.",
+                "slug": "orthodontie",
+                "img": "https://images.unsplash.com/photo-1598256989800-fe5f95da9787?w=400&q=80"
             },
             {
-                "title": "Ménopause",
-                "desc": "Traitement hormonal, suivi et accompagnement.",
-                "slug": "menopause",
-                "img": "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&q=80"
+                "title": "Blanchiment dentaire",
+                "desc": "Blanchiment professionnel pour un sourire éclatant.",
+                "slug": "blanchiment",
+                "img": "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=400&q=80"
             },
             {
-                "title": "Dépistage",
-                "desc": "Frottis cervico-vaginal, HPV, dépistage des IST.",
-                "slug": "depistage",
-                "img": "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=400&q=80"
+                "title": "Prothèses dentaires",
+                "desc": "Couronnes, bridges, prothèses amovibles et fixes.",
+                "slug": "protheses",
+                "img": "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=400&q=80"
             },
             {
-                "title": "Petite chirurgie",
-                "desc": " biopsies, colposcopies, pose/retrait de stérilet.",
-                "slug": "petite-chirurgie",
-                "img": "https://images.unsplash.com/photo-1551076805-e1869033e561?w=400&q=80"
+                "title": "Urgences dentaires",
+                "desc": "Douleurs, abcès, fractures dentaires, prise en charge rapide.",
+                "slug": "urgences",
+                "img": "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=400&q=80"
             }
         ],
         "detail_title": "{title}",
@@ -578,7 +578,7 @@
     "legal": {
         "title": "Mentions légales",
         "editor_title": "Éditeur du site",
-        "editor_name": "Dr. [Nom] - Gynécologue Obstétricienne",
+        "editor_name": "Dr. [Nom] - Chirurgien-Dentiste",
         "editor_address": "[Adresse du cabinet], El Jadida, Maroc",
         "editor_phone": "Tél : +212 5XX-XXXXXX",
         "editor_email": "Email : contact@cabinet-gyneco.ma",
@@ -594,7 +594,7 @@
         "title": "Politique de confidentialité",
         "updated": "Dernière mise à jour : juin 2026",
         "controller_title": "Responsable du traitement",
-        "controller_text": "Le cabinet gynécologique situé à El Jadida est responsable des données collectées via ce site.",
+        "controller_text": "Le cabinet dentaire situé à El Jadida est responsable des données collectées via ce site.",
         "data_title": "Données collectées",
         "data_text": "Nous collectons uniquement les données nécessaires à la prise de rendez-vous : nom, prénom, numéro de téléphone, email (optionnel), ville et motif de consultation. Ces données sont stockées de manière sécurisée.",
         "purpose_title": "Finalité du traitement",
@@ -606,7 +606,7 @@
         "security_title": "Sécurité",
         "security_text": "Les données sont transmises via HTTPS et stockées sur des serveurs sécurisés (Neon / Vercel). L'accès à l'interface d'administration est protégé par mot de passe et limité au personnel autorisé.",
         "contact_title": "Nous contacter",
-        "contact_text": "Cabinet Gynécologique El Jadida\nTél : +212 5XX-XXXXXX\nEmail : contact@cabinet-gyneco.ma"
+        "contact_text": "Cabinet Dentaire El Jadida\nTél : +212 5XX-XXXXXX\nEmail : contact@cabinet-dentaire.ma"
     },
     "common": {
         "loading": "Chargement...",
@@ -621,7 +621,7 @@
         "error": "Désolé, une erreur est survenue."
     },
     "footer": {
-        "rights": "© 2026 Cabinet Gynécologique El Jadida. Tous droits réservés.",
+        "rights": "© 2026 Cabinet Dentaire El Jadida. Tous droits réservés.",
         "emergency": "Urgence : Appelez le +212 5XX-XXXXXX",
         "legal": "Mentions légales",
         "privacy": "Confidentialité"

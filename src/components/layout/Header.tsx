@@ -45,7 +45,7 @@ export function Header({ navLabels }: Props) {
     <header className={`glass sticky top-0 z-50 transition-all duration-300 ${scrolled ? "shadow-sm" : ""}`}>
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link href="/" className="text-xl font-bold transition-opacity hover:opacity-80" style={{ color: "var(--color-primary)" }}>
-          <span className="hidden sm:inline">Cabinet Gynécologique</span>
+          <span className="hidden sm:inline">Cabinet Dentaire</span>
           <span className="sm:hidden">Cabinet</span>
         </Link>
 
