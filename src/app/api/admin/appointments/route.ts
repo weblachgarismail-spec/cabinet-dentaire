@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   if (role === "DOCTOR") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
   try {
-    const { patientName, phone, email, city, notes, date, time, nationalId, consultationType, force } = await request.json();
+    const { patientName, phone, email, notes, date, nationalId, consultationType, force } = await request.json();
     if (!patientName || !phone) {
       return NextResponse.json({ error: "patientName and phone are required" }, { status: 400 });
     }
@@ -30,11 +30,9 @@ export async function POST(request: NextRequest) {
     const appt = await prisma.appointment.create({
       data: {
         date: date ? new Date(date) : new Date(),
-        time: time || new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }),
         patientName,
         phone,
         email: email || null,
-        city: city || null,
         notes: notes || null,
         nationalId: nationalId || null,
         consultationType: consultationType || null,
