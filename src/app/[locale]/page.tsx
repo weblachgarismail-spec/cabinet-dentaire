@@ -108,33 +108,6 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      {/* ─── FEATURES ─── */}
-      <section className="mx-auto max-w-6xl px-4 py-24">
-        <div className="mb-14 text-center">
-          <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>Pourquoi nous choisir</span>
-          <h2 className="text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
-            {t("features_title")}
-          </h2>
-        </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {(t.raw("features") as FeatureItem[]).map((f, i) => (
-            <div key={i} className="card-hover group overflow-hidden rounded-2xl" style={{ backgroundColor: "#fff" }}>
-              <div className="relative h-48 overflow-hidden">
-                <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 50%, oklch(0% 0 0 / 0.3))", zIndex: 1 }} />
-                <img src={f.img} alt={f.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              </div>
-              <div className="p-6">
-                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold text-white" style={{ backgroundColor: "var(--color-primary)" }}>
-                  {i + 1}
-                </div>
-                <h3 className="mb-2 text-lg font-semibold" style={{ color: "var(--color-primary-dark)" }}>{f.title}</h3>
-                <p className="text-sm leading-relaxed opacity-70">{f.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* ─── DOCTOR ─── */}
       <section className="px-4 py-24" style={{ backgroundColor: "oklch(97% 0.015 190 / 0.5)" }}>
         <div className="mx-auto max-w-6xl">
@@ -190,8 +163,28 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
+      {/* ─── RÉALISATIONS ─── */}
+      <section className="px-4 py-24" style={{ backgroundColor: "oklch(97% 0.015 190 / 0.5)" }}>
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-14 text-center">
+            <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>
+              {locale === "fr" ? "Réalisations" : "إنجازاتنا"}
+            </span>
+            <h2 className="text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
+              {locale === "fr" ? "Nos Réalisations" : "إنجازاتنا"}
+            </h2>
+            <p className="mx-auto mt-2 max-w-2xl leading-relaxed opacity-70">
+              {locale === "fr"
+                ? "Transformations Réelles, Résultats Exceptionnels — Découvrez les sourires que nous avons eu le privilège de restaurer."
+                : "تحولات حقيقية، نتائج استثنائية — اكتشف الابتسامات التي كان لنا شرف استعادتها."}
+            </p>
+          </div>
+          <RealisationsGallery items={t.raw("realisations") as RealisationItem[]} locale={locale} />
+        </div>
+      </section>
+
       {/* ─── SERVICES ─── */}
-      <section className="mx-auto max-w-6xl px-4 py-24">
+      <section className="mx-auto max-w-6xl px-4 py-24" style={{ backgroundColor: "#fff" }}>
         <div className="mb-14 text-center">
           <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>Nos services</span>
           <h2 className="mb-4 text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
@@ -199,9 +192,9 @@ export default async function HomePage({ params }: Props) {
           </h2>
           <p className="mx-auto max-w-xl leading-relaxed opacity-70">{t("services_desc")}</p>
         </div>
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-3">
           {(tServices.raw("items") as ServiceItem[]).slice(0, 6).map((item, i) => (
-            <Link key={item.slug} href={`/${locale}/services/${item.slug}`} className="card-hover group overflow-hidden rounded-2xl" style={{ backgroundColor: "#fff" }}>
+            <Link key={item.slug} href={`/${locale}/services/${item.slug}`} className="card-hover group overflow-hidden rounded-2xl shadow-sm" style={{ backgroundColor: "#fff", border: "1px solid oklch(93% 0.01 190)" }}>
               <div className="relative h-44 overflow-hidden">
                 <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 50%, oklch(0% 0 0 / 0.3))", zIndex: 1 }} />
                 <img src={item.img} alt={item.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -225,7 +218,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* ─── TESTIMONIALS ─── */}
-      <section className="px-4 py-24" style={{ backgroundColor: "#fff" }}>
+      <section className="px-4 py-24" style={{ backgroundColor: "oklch(97% 0.015 190 / 0.3)" }}>
         <div className="mx-auto max-w-6xl">
           <div className="mb-14 text-center">
             <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>
@@ -237,7 +230,7 @@ export default async function HomePage({ params }: Props) {
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {(t.raw("testimonials") as TestimonialItem[]).map((item, i) => (
-              <div key={i} className="card-hover flex flex-col rounded-2xl p-6 shadow-sm" style={{ backgroundColor: "oklch(97% 0.015 190 / 0.3)", border: "1px solid oklch(90% 0.01 190)" }}>
+              <div key={i} className="card-hover flex flex-col rounded-2xl p-6 shadow-sm" style={{ backgroundColor: "#fff", border: "1px solid oklch(90% 0.01 190)" }}>
                 <div className="mb-3 flex gap-0.5">
                   {[1,2,3,4,5].map((s) => (
                     <svg key={s} className="h-4 w-4" viewBox="0 0 20 20" fill={s <= item.rating ? "oklch(70% 0.2 80)" : "oklch(90% 0 0 / 0.3)"}><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
@@ -253,26 +246,6 @@ export default async function HomePage({ params }: Props) {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ─── RÉALISATIONS ─── */}
-      <section className="px-4 py-24" style={{ backgroundColor: "oklch(97% 0.015 190 / 0.5)" }}>
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-14 text-center">
-            <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>
-              {locale === "fr" ? "Réalisations" : "إنجازاتنا"}
-            </span>
-            <h2 className="text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
-              {locale === "fr" ? "Nos Réalisations" : "إنجازاتنا"}
-            </h2>
-            <p className="mx-auto mt-2 max-w-2xl leading-relaxed opacity-70">
-              {locale === "fr"
-                ? "Transformations Réelles, Résultats Exceptionnels — Découvrez les sourires que nous avons eu le privilège de restaurer."
-                : "تحولات حقيقية، نتائج استثنائية — اكتشف الابتسامات التي كان لنا شرف استعادتها."}
-            </p>
-          </div>
-          <RealisationsGallery items={t.raw("realisations") as RealisationItem[]} locale={locale} />
         </div>
       </section>
 

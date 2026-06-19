@@ -5,7 +5,7 @@ import Link from "next/link";
 
 type RealisationItem = { title: string; desc: string; badge: string; img: string };
 
-export function RealisationsGallery({ items, locale }: { items: RealisationItem[]; locale: string }) {
+export function RealisationsGallery({ items, locale, showViewAll = true }: { items: RealisationItem[]; locale: string; showViewAll?: boolean }) {
   const [filter, setFilter] = useState("Tous");
   const rtl = locale === "ar";
   const categories = ["Tous", ...Array.from(new Set(items.map((i) => i.badge)))];
@@ -65,12 +65,14 @@ export function RealisationsGallery({ items, locale }: { items: RealisationItem[
         ))}
       </div>
 
-      <div className="mt-10 text-center">
-        <Link href={`/${locale}/galerie`} className="btn-outline">
-          {locale === "ar" ? "عرض المعرض كاملاً" : "Voir la Galerie Complète"}
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={rtl ? "M7 16l-4-4m0 0l4-4m-4 4h18" : "M17 8l4 4m0 0l-4 4m4-4H3"} /></svg>
-        </Link>
-      </div>
+      {showViewAll && (
+        <div className="mt-10 text-center">
+          <Link href={`/${locale}/galerie`} className="btn-outline">
+            {locale === "ar" ? "عرض المعرض كاملاً" : "Voir la Galerie Complète"}
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={rtl ? "M7 16l-4-4m0 0l4-4m-4 4h18" : "M17 8l4 4m0 0l-4 4m4-4H3"} /></svg>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
