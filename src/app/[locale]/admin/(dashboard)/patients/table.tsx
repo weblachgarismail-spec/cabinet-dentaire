@@ -43,7 +43,7 @@ type ConfirmedAppt = {
   email: string | null;
   city: string | null;
   date: string;
-  time: string;
+  time: string | null;
 };
 
 type Props = { patients: Patient[]; trashedPatients: Patient[]; confirmedAppointments: ConfirmedAppt[]; usedPhones: Set<string>; locale: string; userRole: string };

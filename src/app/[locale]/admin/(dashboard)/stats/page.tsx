@@ -11,7 +11,7 @@ type StatsData = {
   statusCounts: { status: string; count: number }[];
   topActTypes: { actType: string; count: number }[];
   recentPatients: { id: string; patientName: string; phone: string; createdAt: string }[];
-  recentAppointments: { id: string; patientName: string; date: string; time: string; status: string; createdAt: string }[];
+  recentAppointments: { id: string; patientName: string; date: string; time: string | null; status: string; createdAt: string }[];
 };
 
 export default function StatsPage() {

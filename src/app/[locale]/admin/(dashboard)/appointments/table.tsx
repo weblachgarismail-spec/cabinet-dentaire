@@ -17,7 +17,7 @@ type Appointment = {
   id: string;
   createdAt: string;
   date: string;
-  time: string;
+  time: string | null;
   patientName: string;
   phone: string;
   email: string | null;
