@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 type CalendarAppointment = {
   id: string;
   date: string;
-  time: string | null;
   patientName: string;
   phone: string;
   status: string;
@@ -61,7 +60,7 @@ export function CalendarView({
     return appointments.filter((a) => {
       const ad = new Date(a.date);
       return ad.toDateString() === current.toDateString();
-    }).sort((a, b) => (a.time || "Z").localeCompare(b.time || "Z"));
+    });
   }, [appointments, current]);
 
   const weekStart = useMemo(() => {
@@ -91,7 +90,7 @@ export function CalendarView({
       const key = ad.toDateString();
       if (map[key]) map[key].push(a);
     });
-    Object.values(map).forEach((arr) => arr.sort((a, b) => (a.time || "Z").localeCompare(b.time || "Z")));
+
     return map;
   }, [appointments, weekDays]);
 
@@ -129,7 +128,6 @@ export function CalendarView({
           }}
           onClick={() => setPopover(popover === a.id ? null : a.id)}
         >
-          <div className="font-medium">{a.time || "—"}</div>
           <div className="truncate font-semibold">{a.patientName}</div>
           <div className="opacity-70">{a.phone}</div>
         </div>
@@ -200,7 +198,7 @@ export function CalendarView({
         <div className="rounded-xl shadow-sm" style={{ backgroundColor: "#fff" }}>
           {hours.map((hour) => {
             const hourStr = `${hour.toString().padStart(2, "0")}`;
-            const apptsAtHour = dayAppts.filter((a) => a.time?.startsWith(hourStr));
+            const apptsAtHour = dayAppts;
             const isEmpty = apptsAtHour.length === 0;
             return (
               <div key={hour} className="flex border-b" style={{ borderColor: "#f3f4f6" }}>

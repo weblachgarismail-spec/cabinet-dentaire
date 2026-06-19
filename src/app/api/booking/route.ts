@@ -6,26 +6,23 @@ import { logger } from "@/lib/logger";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { date, time, patientName, phone, email, city, notes } = body;
+    const { date, patientName, phone, email, notes } = body;
 
     if (!date || !patientName || !phone) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const appointment = await createAppointment({ date, time: time || undefined, patientName, phone, email, city, notes });
-    logger.info("Appointment created", { id: appointment.id, date, time: time || "À confirmer" });
+    const appointment = await createAppointment({ date, patientName, phone, email, notes });
+    logger.info("Appointment created", { id: appointment.id, date });
 
     if (email) {
-      sendConfirmationEmail({ to: email, patientName, date, time: time || undefined }).catch((err) =>
+      sendConfirmationEmail({ to: email, patientName, date }).catch((err) =>
         logger.error("Failed to send confirmation email", { error: err, appointmentId: appointment.id })
       );
     }
 
     return NextResponse.json({ success: true, id: appointment.id }, { status: 201 });
   } catch (error) {
-    if (error instanceof Error && error.message === "SLOT_UNAVAILABLE") {
-      return NextResponse.json({ error: "SLOT_UNAVAILABLE" }, { status: 409 });
-    }
     logger.error("Failed to create appointment", { error });
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }

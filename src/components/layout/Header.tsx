@@ -7,7 +7,7 @@ import { Link, usePathname } from "@/navigation";
 
 type Props = { navLabels: Record<string, string> };
 
-const publicKeys = ["home", "about", "services", "blog", "booking", "contact"] as const;
+const publicKeys = ["home", "about", "services", "blog", "contact"] as const;
 
 export function Header({ navLabels }: Props) {
   const pathname = usePathname();

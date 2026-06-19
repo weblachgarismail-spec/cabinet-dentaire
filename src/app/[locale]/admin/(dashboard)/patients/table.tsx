@@ -41,9 +41,7 @@ type ConfirmedAppt = {
   patientName: string;
   phone: string;
   email: string | null;
-  city: string | null;
   date: string;
-  time: string | null;
 };
 
 type Props = { patients: Patient[]; trashedPatients: Patient[]; confirmedAppointments: ConfirmedAppt[]; usedPhones: Set<string>; locale: string; userRole: string };
@@ -374,7 +372,7 @@ export function PatientsTable({ patients, trashedPatients, confirmedAppointments
               >
                 <option value="">{t("select_patient_placeholder")}</option>
                 {availableAppointments.map((a) => (
-                  <option key={a.id} value={a.id}>{a.patientName} - {a.phone} ({new Date(a.date).toLocaleDateString(locale === "ar" ? "ar-SA" : "fr-FR")} {a.time || "—"})</option>
+                  <option key={a.id} value={a.id}>{a.patientName} - {a.phone} ({new Date(a.date).toLocaleDateString(locale === "ar" ? "ar-SA" : "fr-FR")})</option>
                 ))}
               </select>
               {availableAppointments.length === 0 && (

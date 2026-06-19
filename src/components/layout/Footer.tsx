@@ -18,7 +18,7 @@ export async function Footer({ locale }: Props) {
         <div className="mb-6 flex flex-wrap justify-center gap-x-8 gap-y-2">
           <Link href="/about" className="opacity-70 transition-opacity hover:opacity-100">À propos</Link>
           <Link href="/services" className="opacity-70 transition-opacity hover:opacity-100">Services</Link>
-          <Link href="/booking" className="opacity-70 transition-opacity hover:opacity-100">Rendez-vous</Link>
+          <a href="https://wa.me/212661250137" target="_blank" rel="noopener noreferrer" className="opacity-70 transition-opacity hover:opacity-100">WhatsApp Direct</a>
           <Link href="/contact" className="opacity-70 transition-opacity hover:opacity-100">Contact</Link>
         </div>
         <div className="mb-6 flex justify-center gap-6">

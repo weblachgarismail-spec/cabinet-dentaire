@@ -24,11 +24,9 @@ export async function GET() {
     const apptData = appointments.map((a) => ({
       ID: a.id,
       Date: a.date.toISOString().slice(0, 10),
-      Time: a.time,
       Patient: a.patientName,
       Phone: a.phone,
       Email: a.email || "",
-      City: a.city || "",
       Notes: a.notes || "",
       "National ID": a.nationalId || "",
       "Consultation Type": a.consultationType || "",

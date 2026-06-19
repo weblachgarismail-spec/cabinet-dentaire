@@ -44,11 +44,9 @@ model AppointmentComment {
 model Appointment {
   id               String   @id @default(cuid())
   date             DateTime
-  time             String?
   patientName      String
   phone            String
   email            String?
-  city             String?
   notes            String?
   nationalId       String?
   consultationType String?
@@ -60,8 +58,6 @@ model Appointment {
   createdAt        DateTime @default(now())
 
   comments         AppointmentComment[]
-
-  @@unique([date, time])
 }
 
 model PatientRecord {

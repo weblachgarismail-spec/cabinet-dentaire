@@ -43,9 +43,9 @@ export async function GET() {
     // Appointments
     for (const a of appointments) {
       lines.push(
-        `INSERT INTO Appointment (id, date, time, patientName, phone, email, city, notes, nationalId, consultationType, status, cancelComment, arrivedAt, remindedAt, postponedToDate, createdAt) ` +
-        `VALUES (${esc(a.id)}, ${esc(toISO(a.date))}, ${esc(a.time)}, ${esc(a.patientName)}, ${esc(a.phone)}, ` +
-        `${esc(a.email)}, ${esc(a.city)}, ${esc(a.notes)}, ${esc(a.nationalId)}, ${esc(a.consultationType)}, ${esc(a.status)}, ${esc(a.cancelComment)}, ` +
+        `INSERT INTO Appointment (id, date, patientName, phone, email, notes, nationalId, consultationType, status, cancelComment, arrivedAt, remindedAt, postponedToDate, createdAt) ` +
+        `VALUES (${esc(a.id)}, ${esc(toISO(a.date))}, ${esc(a.patientName)}, ${esc(a.phone)}, ` +
+        `${esc(a.email)}, ${esc(a.notes)}, ${esc(a.nationalId)}, ${esc(a.consultationType)}, ${esc(a.status)}, ${esc(a.cancelComment)}, ` +
         `${esc(toISO(a.arrivedAt))}, ${esc(toISO(a.remindedAt))}, ${esc(a.postponedToDate)}, ${esc(toISO(a.createdAt))});`
       );
     }

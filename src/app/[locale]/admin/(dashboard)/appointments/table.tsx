@@ -17,11 +17,9 @@ type Appointment = {
   id: string;
   createdAt: string;
   date: string;
-  time: string | null;
   patientName: string;
   phone: string;
   email: string | null;
-  city: string | null;
   notes: string | null;
   status: string;
   cancelComment: string | null;
@@ -35,10 +33,7 @@ type Appointment = {
 
 type Props = { appointments: Appointment[]; locale: string; now: string; userRole: string };
 
-const parseTime = (time: string) => {
-  const [h, m] = time.split(":").map(Number);
-  return h * 60 + (m || 0);
-};
+
 
 export function AdminAppointmentsTable({ appointments, locale, now, userRole }: Props) {
   const t = useTranslations("admin");
@@ -50,13 +45,12 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
   const [cancelModal, setCancelModal] = useState<{ id: string } | null>(null);
   const [cancelComment, setCancelComment] = useState("");
   const [currentTime, setCurrentTime] = useState(new Date(now));
-  const [dismissedReminders, setDismissedReminders] = useState<Set<string>>(new Set());
   const [commentModal, setCommentModal] = useState<{ id: string } | null>(null);
   const [commentText, setCommentText] = useState("");
   const [postponeModal, setPostponeModal] = useState<{ id: string } | null>(null);
   const [postponeDate, setPostponeDate] = useState("");
   const [walkinModal, setWalkinModal] = useState(false);
-  const [walkinForm, setWalkinForm] = useState({ patientName: "", phone: "", email: "", city: "", date: "", time: "", nationalId: "", consultationType: "" });
+  const [walkinForm, setWalkinForm] = useState({ patientName: "", phone: "", email: "", date: "", nationalId: "", consultationType: "" });
 
   const isDoctor = userRole === "DOCTOR";
   const isSecretary = userRole === "SECRETARY";
@@ -73,7 +67,6 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
 
   const [filterStatus, setFilterStatus] = useState("");
   const [filterDate, setFilterDate] = useState("");
-  const [filterTime, setFilterTime] = useState("");
 
   const filtered = items.filter((a) => {
     if (filterStatus && a.status !== filterStatus) return false;
@@ -82,7 +75,6 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
       const fd = new Date(filterDate);
       if (d.toDateString() !== fd.toDateString()) return false;
     }
-    if (filterTime && !a.time?.startsWith(filterTime)) return false;
     return true;
   });
 
@@ -90,38 +82,9 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
   const safePage = Math.min(page, totalPages);
   const pagedItems = filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
 
-  const upcomingReminders = items.filter((a) => {
-    if (a.status !== "CONFIRMED" || a.arrivedAt || a.remindedAt) return false;
-    if (dismissedReminders.has(a.id)) return false;
-    const ad = new Date(a.date);
-    const today = new Date(currentTime);
-    if (ad.toDateString() !== today.toDateString() || !a.time) return false;
-    const aptMin = parseTime(a.time);
-    const nowMin = currentTime.getHours() * 60 + currentTime.getMinutes();
-    const diff = aptMin - nowMin;
-    return diff >= 0 && diff <= 30;
-  });
+  useEffect(() => { setPage(1); }, [filterStatus, filterDate]);
 
-  useEffect(() => { setPage(1); }, [filterStatus, filterDate, filterTime]);
 
-  const remindedSent = useRef<Set<string>>(new Set());
-  useEffect(() => {
-    upcomingReminders.forEach((a) => {
-      if (remindedSent.current.has(a.id)) return;
-      remindedSent.current.add(a.id);
-      fetch("/api/admin/appointments", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: a.id, remindedAt: true }),
-      }).then((res) => {
-        if (res.ok) {
-          setItems((prev) =>
-            prev.map((item) => (item.id === a.id ? { ...item, remindedAt: new Date().toISOString() } : item))
-          );
-        }
-      });
-    });
-  }, [upcomingReminders]);
 
   const updateStatus = useCallback(async (id: string, status: string, comment?: string, postponedDate?: string) => {
     setLoading(id);
@@ -216,15 +179,7 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
     POSTPONED: "#fde68a",
   };
 
-  const isNoShow = (a: Appointment) => {
-    if (a.status !== "CONFIRMED" || a.arrivedAt) return false;
-    const ad = new Date(a.date);
-    const today = new Date(currentTime);
-    if (ad.toDateString() !== today.toDateString() || !a.time) return false;
-    const aptMin = parseTime(a.time);
-    const nowMin = currentTime.getHours() * 60 + currentTime.getMinutes();
-    return nowMin > aptMin + 15;
-  };
+  const isNoShow = (_a: Appointment) => false;
 
   const todayStr = new Date(currentTime).toDateString();
   const todayItems = items.filter((a) => new Date(a.date).toDateString() === todayStr);
@@ -259,7 +214,7 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
         const created = await res.json();
         setItems((prev) => [created, ...prev]);
         setWalkinModal(false);
-        setWalkinForm({ patientName: "", phone: "", email: "", city: "", date: "", time: "", nationalId: "", consultationType: "" });
+        setWalkinForm({ patientName: "", phone: "", email: "", date: "", nationalId: "", consultationType: "" });
         toast("success", t("toast_walkin_added"));
         router.refresh();
       } else if (res.status === 409) {
@@ -279,36 +234,7 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
 
   return (
     <>
-      {canAct && upcomingReminders.length > 0 && (
-        <div className="mb-4 rounded-xl border border-blue-200 bg-blue-50 p-4 shadow-sm">
-          <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-blue-800">
-            <span>🔔</span> {t("reminder_title")} ({upcomingReminders.length})
-          </h3>
-          <ul className="space-y-1">
-            {upcomingReminders.map((a) => (
-              <li key={a.id} className="flex items-center justify-between text-sm text-blue-700">
-                <span>{a.time || "—"} — {a.patientName} ({a.phone})</span>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => updateStatus(a.id, "ARRIVED")}
-                    disabled={loading === a.id}
-                    className="rounded px-2 py-0.5 text-xs font-medium text-white"
-                    style={{ backgroundColor: "#3b82f6" }}
-                  >
-                    {t("arrived_btn")}
-                  </button>
-                  <button
-                    onClick={() => setDismissedReminders((prev) => new Set(prev).add(a.id))}
-                    className="rounded px-2 py-0.5 text-xs font-medium opacity-60 hover:opacity-100"
-                  >
-                    ✕
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+
 
       <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
         <div className="rounded-xl p-4 shadow-sm text-center" style={{ backgroundColor: "#fff" }}>
@@ -374,12 +300,8 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
           <label className="mb-1 block text-xs font-medium opacity-70">{t("filter_date")}</label>
           <input type="date" value={filterDate} onChange={(e) => setFilterDate(e.target.value)} className="rounded-lg border p-1.5 text-sm outline-none" style={{ borderColor: "#d1d5db" }} />
         </div>
-        <div>
-          <label className="mb-1 block text-xs font-medium opacity-70">{t("filter_time")}</label>
-          <input type="time" value={filterTime} onChange={(e) => setFilterTime(e.target.value)} className="rounded-lg border p-1.5 text-sm outline-none" style={{ borderColor: "#d1d5db" }} />
-        </div>
-        {(filterStatus || filterDate || filterTime) && (
-          <button onClick={() => { setFilterStatus(""); setFilterDate(""); setFilterTime(""); }} className="self-end rounded-lg px-3 py-1.5 text-xs font-medium opacity-60 hover:opacity-100">
+        {(filterStatus || filterDate) && (
+          <button onClick={() => { setFilterStatus(""); setFilterDate(""); }} className="self-end rounded-lg px-3 py-1.5 text-xs font-medium opacity-60 hover:opacity-100">
             {t("clear_filters")}
           </button>
         )}
@@ -407,10 +329,8 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
           <thead>
             <tr className="border-b" style={{ borderColor: "#e5e7eb" }}>
               <th className="p-3 font-semibold">{t("table_date")}</th>
-              <th className="p-3 font-semibold">{t("table_time")}</th>
               <th className="p-3 font-semibold">{t("table_patient")}</th>
               <th className="p-3 font-semibold">{t("table_phone")}</th>
-              <th className="p-3 font-semibold">{t("table_city")}</th>
               <th className="p-3 font-semibold">{t("table_status")}</th>
               <th className="p-3 font-semibold">{t("table_actions")}</th>
             </tr>
@@ -428,10 +348,8 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
                   }}
                 >
                   <td className="p-3">{new Date(a.date).toLocaleDateString(locale === "ar" ? "ar-SA" : "fr-FR")}</td>
-                  <td className="p-3">{a.time || "—"}</td>
                   <td className="p-3">{a.patientName}</td>
                   <td className="p-3">{a.phone}</td>
-                  <td className="p-3">{a.city || "—"}</td>
                   <td className="p-3">
                     <div className="flex flex-wrap items-center gap-1">
                       <span className="rounded-full px-2 py-1 text-xs font-medium" style={{ backgroundColor: statusColors[a.status] || "#f3f4f6" }}>
@@ -641,23 +559,9 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
                 style={{ borderColor: "#d1d5db" }}
               />
               <input
-                value={walkinForm.city}
-                onChange={(e) => setWalkinForm({ ...walkinForm, city: e.target.value })}
-                placeholder={t("form_city")}
-                className="w-full rounded-lg border p-2 text-sm outline-none"
-                style={{ borderColor: "#d1d5db" }}
-              />
-              <input
                 type="date"
                 value={walkinForm.date}
                 onChange={(e) => setWalkinForm({ ...walkinForm, date: e.target.value })}
-                className="w-full rounded-lg border p-2 text-sm outline-none"
-                style={{ borderColor: "#d1d5db" }}
-              />
-              <input
-                type="time"
-                value={walkinForm.time}
-                onChange={(e) => setWalkinForm({ ...walkinForm, time: e.target.value })}
                 className="w-full rounded-lg border p-2 text-sm outline-none"
                 style={{ borderColor: "#d1d5db" }}
               />

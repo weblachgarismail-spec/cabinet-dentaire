@@ -49,7 +49,7 @@ export async function GET() {
       prisma.appointment.findMany({
         orderBy: { createdAt: "desc" },
         take: 5,
-        select: { id: true, patientName: true, date: true, time: true, status: true, createdAt: true },
+        select: { id: true, patientName: true, date: true, status: true, createdAt: true },
       }),
     ]);
 
