@@ -89,11 +89,9 @@ export async function POST(request: NextRequest) {
             data: {
               id,
               date: new Date(s(row.Date)),
-              time: s(row.Time) || "00:00",
               patientName,
               phone,
               email: s(row.Email) || null,
-              city: s(row.City) || null,
               notes: s(row.Notes) || null,
               nationalId: s(row["National ID"]) || null,
               consultationType: s(row["Consultation Type"]) || null,
