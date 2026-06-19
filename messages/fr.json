@@ -52,9 +52,63 @@
                                }
                            ],
                  "services_title":  "Nos Services",
-                 "services_desc":  "Des soins complets pour votre santé bucco-dentaire, du diagnostic à la chirurgie.",
-                  "cta_section_title":  "Prêt pour votre prochain rendez-vous ?",
-                  "cta_section_desc":  "Réservez dès maintenant une consultation dans notre cabinet à [ville].",
+                  "services_desc":  "Des soins complets pour votre santé bucco-dentaire, du diagnostic à la chirurgie.",
+                  "testimonials":  [
+                                   {
+                                       "name":  "Fatima Zohra",
+                                       "text":  "Je recommande vivement ce cabinet ! L'équipe est très professionnelle et à l'écoute. Mon traitement orthodontique s'est déroulé sans aucune douleur.",
+                                       "rating":  5
+                                   },
+                                   {
+                                       "name":  "Youssef El Amrani",
+                                       "text":  "Un grand merci au Dr. pour la pose de mon implant. Le résultat est parfait, on ne voit pas la différence avec une dent naturelle. Un travail remarquable !",
+                                       "rating":  5
+                                   },
+                                   {
+                                       "name":  "Khadija Benali",
+                                       "text":  "Je suis venue pour un blanchiment et je suis ravie du résultat. L'accueil est chaleureux et les explications très claires. Je me suis sentie en confiance dès la première visite.",
+                                       "rating":  5
+                                   },
+                                   {
+                                       "name":  "Mohammed Ait",
+                                       "text":  "Mon fils de 7 ans avait très peur du dentiste. L'équipe a su le rassurer et le soigner en douceur. Aujourd'hui il demande à revenir ! Merci mille fois.",
+                                       "rating":  5
+                                   }
+                               ],
+                  "realisations":  [
+                                   {
+                                       "title":  "Cas #23",
+                                       "desc":  "Reconstruction complète de la mâchoire supérieure avec implants dentaires.",
+                                       "badge":  "Implants"
+                                   },
+                                   {
+                                       "title":  "Cas #24",
+                                       "desc":  "Couronnes dentaires et smile makeover complet.",
+                                       "badge":  "Couronnes"
+                                   },
+                                   {
+                                       "title":  "Cas #25",
+                                       "desc":  "Facettes Emax pour un sourire harmonieux et naturel.",
+                                       "badge":  "Facettes"
+                                   },
+                                   {
+                                       "title":  "Cas #8",
+                                       "desc":  "Facettes céramique pour restauration esthétique antérieure.",
+                                       "badge":  "Facettes"
+                                   },
+                                   {
+                                       "title":  "Cas #55",
+                                       "desc":  "Blanchiment professionnel — 8 teintes plus claires.",
+                                       "badge":  "Blanchiment"
+                                   },
+                                   {
+                                       "title":  "Cas #31",
+                                       "desc":  "Facettes directes pour un sourire hollywoodien.",
+                                       "badge":  "Facettes"
+                                   }
+                               ],
+                   "cta_section_title":  "Prêt pour votre prochain rendez-vous ?",
+                   "cta_section_desc":  "Réservez dès maintenant une consultation dans notre cabinet à [ville].",
                   "faq":  [
                               {
                                   "question":  "Les soins dentaires sont-ils douloureux ?",
