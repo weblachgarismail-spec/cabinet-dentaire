@@ -22,10 +22,6 @@ type PatientRecord = {
   patientName: string;
   phone: string;
   nationalId: string | null;
-  address: string | null;
-  email: string | null;
-  city: string | null;
-  dateOfBirth: string | null;
   notes: string | null;
   nextAppointmentAt: string | null;
   nextAppointmentNotes: string | null;
@@ -49,7 +45,7 @@ export default function PatientDetailPage() {
   const [actForm, setActForm] = useState({ actType: "CONSULTATION", actDate: "", description: "", doctorNotes: "", prescribedMeds: "" });
 
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editForm, setEditForm] = useState({ nationalId: "", address: "", email: "", notes: "", nextAppointmentAt: "", nextAppointmentNotes: "" });
+  const [editForm, setEditForm] = useState({ nationalId: "", notes: "", nextAppointmentAt: "", nextAppointmentNotes: "" });
 
   useEffect(() => {
     fetch(`/api/admin/patients/${params.id}`)
@@ -65,8 +61,6 @@ export default function PatientDetailPage() {
     if (!patient) return;
     setEditForm({
       nationalId: patient.nationalId || "",
-      address: patient.address || "",
-      email: patient.email || "",
       notes: patient.notes || "",
       nextAppointmentAt: patient.nextAppointmentAt ? patient.nextAppointmentAt.slice(0, 10) : "",
       nextAppointmentNotes: patient.nextAppointmentNotes || "",
@@ -82,8 +76,6 @@ export default function PatientDetailPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nationalId: editForm.nationalId || null,
-          address: editForm.address || null,
-          email: editForm.email || null,
           notes: editForm.notes || null,
           nextAppointmentAt: editForm.nextAppointmentAt || null,
           nextAppointmentNotes: editForm.nextAppointmentNotes || null,
@@ -187,9 +179,8 @@ export default function PatientDetailPage() {
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold" style={{ color: "var(--color-primary-dark)" }}>{patient.patientName}</h1>
-            <p className="mt-1 text-sm opacity-70">{patient.phone}{patient.email ? ` • ${patient.email}` : ""}{patient.city ? ` • ${patient.city}` : ""}</p>
+            <p className="mt-1 text-sm opacity-70">{patient.phone}</p>
             {patient.nationalId && <p className="mt-1 text-xs opacity-50">{t("national_id")}: {patient.nationalId}</p>}
-            {patient.address && <p className="mt-1 text-xs opacity-50">{t("address")}: {patient.address}</p>}
           </div>
           <div className="flex items-center gap-3 no-print">
             <span className="rounded-full px-3 py-1 text-xs font-medium" style={{ backgroundColor: "var(--color-primary-light)", color: "var(--color-primary-dark)" }}>
@@ -316,14 +307,7 @@ export default function PatientDetailPage() {
                 <label className="mb-1 block text-xs font-medium opacity-70">{t("national_id")}</label>
                 <input value={editForm.nationalId} onChange={(e) => setEditForm({ ...editForm, nationalId: e.target.value })} placeholder="CIN / Passport" className="w-full rounded-lg border p-2 text-sm outline-none" style={{ borderColor: "#d1d5db" }} />
               </div>
-              <div>
-                <label className="mb-1 block text-xs font-medium opacity-70">{t("address")}</label>
-                <input value={editForm.address} onChange={(e) => setEditForm({ ...editForm, address: e.target.value })} placeholder={t("address_placeholder")} className="w-full rounded-lg border p-2 text-sm outline-none" style={{ borderColor: "#d1d5db" }} />
-              </div>
-              <div>
-                <label className="mb-1 block text-xs font-medium opacity-70">Email</label>
-                <input value={editForm.email} onChange={(e) => setEditForm({ ...editForm, email: e.target.value })} placeholder="Email" className="w-full rounded-lg border p-2 text-sm outline-none" style={{ borderColor: "#d1d5db" }} />
-              </div>
+
               <div>
                 <label className="mb-1 block text-xs font-medium opacity-70">{t("patient_notes")}</label>
                 <textarea value={editForm.notes} onChange={(e) => setEditForm({ ...editForm, notes: e.target.value })} rows={3} className="w-full resize-none rounded-lg border p-2 text-sm outline-none" style={{ borderColor: "#d1d5db" }} />

@@ -5,15 +5,12 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
-const searchable = (p: { patientName: string; phone: string; nationalId: string | null; email: string | null; city: string | null; address: string | null }, q: string) => {
+const searchable = (p: { patientName: string; phone: string; nationalId: string | null }, q: string) => {
   if (!q) return true;
   const needle = q.toLowerCase();
   return p.patientName.toLowerCase().includes(needle)
     || p.phone.toLowerCase().includes(needle)
-    || (p.nationalId ?? "").toLowerCase().includes(needle)
-    || (p.email ?? "").toLowerCase().includes(needle)
-    || (p.city ?? "").toLowerCase().includes(needle)
-    || (p.address ?? "").toLowerCase().includes(needle);
+    || (p.nationalId ?? "").toLowerCase().includes(needle);
 };
 
 const PAGE_SIZE = 50;
@@ -23,10 +20,6 @@ type Patient = {
   patientName: string;
   phone: string;
   nationalId: string | null;
-  address: string | null;
-  email: string | null;
-  city: string | null;
-  dateOfBirth: string | null;
   notes: string | null;
   nextAppointmentAt: string | null;
   nextAppointmentNotes: string | null;
@@ -40,7 +33,6 @@ type ConfirmedAppt = {
   id: string;
   patientName: string;
   phone: string;
-  email: string | null;
   date: string;
 };
 
@@ -85,7 +77,7 @@ export function PatientsTable({ patients, trashedPatients, confirmedAppointments
   const createPatient = async (force = false) => {
     const appt = availableAppointments.find((a) => a.id === selectedAppt);
     if (!appt) return;
-    const data = { patientName: appt.patientName, phone: appt.phone, email: appt.email || undefined, force };
+    const data = { patientName: appt.patientName, phone: appt.phone, force };
     setLoading("new");
     try {
       const res = await fetch("/api/admin/patients", {
@@ -131,10 +123,6 @@ export function PatientsTable({ patients, trashedPatients, confirmedAppointments
       [t("table_patient")]: p.patientName,
       [t("table_phone")]: p.phone,
       [t("national_id")]: p.nationalId || "",
-      [t("table_email")]: p.email || "",
-      [t("table_address")]: p.address || "",
-      [t("table_city")]: p.city || "",
-      [t("table_dob")]: p.dateOfBirth ? new Date(p.dateOfBirth).toLocaleDateString(locale === "ar" ? "ar-SA" : "fr-FR") : "",
       [t("table_notes")]: p.notes || "",
       [t("table_created")]: new Date(p.createdAt).toLocaleDateString(locale === "ar" ? "ar-SA" : "fr-FR"),
       [t("next_appointment")]: p.nextAppointmentAt ? new Date(p.nextAppointmentAt).toLocaleDateString(locale === "ar" ? "ar-SA" : "fr-FR") : "",
@@ -217,10 +205,6 @@ export function PatientsTable({ patients, trashedPatients, confirmedAppointments
                     <th className="p-3 font-semibold whitespace-nowrap">ID</th>
                     <th className="p-3 font-semibold">{t("table_phone")}</th>
                     <th className="p-3 font-semibold">{t("national_id")}</th>
-                    <th className="p-3 font-semibold">{t("table_email")}</th>
-                    <th className="p-3 font-semibold">{t("table_address")}</th>
-                    <th className="p-3 font-semibold">{t("table_city")}</th>
-                    <th className="p-3 font-semibold">{t("table_dob")}</th>
                     <th className="p-3 font-semibold">{t("acts_count")}</th>
                     <th className="p-3 font-semibold">{t("next_appointment")}</th>
                     <th className="p-3 font-semibold">{t("table_created")}</th>
@@ -238,12 +222,6 @@ export function PatientsTable({ patients, trashedPatients, confirmedAppointments
                       <td className="p-3 text-xs opacity-50 font-mono" title={p.id}>{p.id.slice(0, 8)}…</td>
                       <td className="p-3 whitespace-nowrap">{p.phone}</td>
                       <td className="p-3 text-xs opacity-70 whitespace-nowrap">{p.nationalId || "—"}</td>
-                      <td className="p-3 text-xs">{p.email || "—"}</td>
-                      <td className="p-3 text-xs max-w-[150px] truncate" title={p.address ?? ""}>{p.address || "—"}</td>
-                      <td className="p-3">{p.city || "—"}</td>
-                      <td className="p-3 text-xs whitespace-nowrap">
-                        {p.dateOfBirth ? new Date(p.dateOfBirth).toLocaleDateString(locale === "ar" ? "ar-SA" : "fr-FR") : "—"}
-                      </td>
                       <td className="p-3">{p._count.medicalActs}</td>
                       <td className="p-3 text-xs whitespace-nowrap">
                         {p.nextAppointmentAt ? (
@@ -300,10 +278,6 @@ export function PatientsTable({ patients, trashedPatients, confirmedAppointments
                     <th className="p-3 font-semibold whitespace-nowrap">ID</th>
                     <th className="p-3 font-semibold">{t("table_phone")}</th>
                     <th className="p-3 font-semibold">{t("national_id")}</th>
-                    <th className="p-3 font-semibold">{t("table_email")}</th>
-                    <th className="p-3 font-semibold">{t("table_address")}</th>
-                    <th className="p-3 font-semibold">{t("table_city")}</th>
-                    <th className="p-3 font-semibold">{t("table_dob")}</th>
                     <th className="p-3 font-semibold">{t("acts_count")}</th>
                     <th className="p-3 font-semibold">{t("deleted_at")}</th>
                     <th className="p-3 font-semibold">{t("table_actions")}</th>
@@ -320,12 +294,6 @@ export function PatientsTable({ patients, trashedPatients, confirmedAppointments
                       <td className="p-3 text-xs opacity-50 font-mono" title={p.id}>{p.id.slice(0, 8)}…</td>
                       <td className="p-3 whitespace-nowrap">{p.phone}</td>
                       <td className="p-3 text-xs opacity-70 whitespace-nowrap">{p.nationalId || "—"}</td>
-                      <td className="p-3 text-xs">{p.email || "—"}</td>
-                      <td className="p-3 text-xs max-w-[150px] truncate" title={p.address ?? ""}>{p.address || "—"}</td>
-                      <td className="p-3">{p.city || "—"}</td>
-                      <td className="p-3 text-xs whitespace-nowrap">
-                        {p.dateOfBirth ? new Date(p.dateOfBirth).toLocaleDateString(locale === "ar" ? "ar-SA" : "fr-FR") : "—"}
-                      </td>
                       <td className="p-3">{p._count.medicalActs}</td>
                       <td className="p-3 text-xs opacity-60 whitespace-nowrap">
                         {p.deletedAt ? new Date(p.deletedAt).toLocaleDateString(locale === "ar" ? "ar-SA" : "fr-FR") : "—"}
