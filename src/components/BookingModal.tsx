@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { CalendarPicker } from "@/components/booking/CalendarPicker";
 
@@ -8,12 +8,23 @@ type Props = {
   label?: string;
   className?: string;
   icon?: React.ReactNode;
+  triggerRef?: React.RefObject<HTMLButtonElement | null>;
 };
 
-export default function BookingModal({ label, className, icon }: Props) {
+export default function BookingModal({ label, className, icon, triggerRef }: Props) {
   const locale = useLocale();
   const t = useTranslations("booking");
   const [open, setOpen] = useState(false);
+  const internalRef = useRef<HTMLButtonElement>(null);
+  const btnRef = triggerRef || internalRef;
+
+  useEffect(() => {
+    const el = btnRef.current;
+    if (!el) return;
+    const handler = () => setOpen(true);
+    el.addEventListener("click", handler);
+    return () => el.removeEventListener("click", handler);
+  }, [btnRef]);
   const [date, setDate] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -61,9 +72,11 @@ export default function BookingModal({ label, className, icon }: Props) {
 
   return (
     <>
-      <button onClick={() => setOpen(true)} className={className || "btn-primary"}>
-        {icon}{label || t("title")}
-      </button>
+      {!triggerRef && (
+        <button ref={btnRef as React.RefObject<HTMLButtonElement>} className={className || "btn-primary"}>
+          {icon}{label || t("title")}
+        </button>
+      )}
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: "rgba(0,0,0,0.5)" }} onClick={close}>
