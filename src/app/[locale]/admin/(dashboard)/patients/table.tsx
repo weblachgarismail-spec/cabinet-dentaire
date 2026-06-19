@@ -85,7 +85,7 @@ export function PatientsTable({ patients, trashedPatients, confirmedAppointments
   const createPatient = async (force = false) => {
     const appt = availableAppointments.find((a) => a.id === selectedAppt);
     if (!appt) return;
-    const data = { patientName: appt.patientName, phone: appt.phone, email: appt.email || undefined, city: appt.city || undefined, force };
+    const data = { patientName: appt.patientName, phone: appt.phone, email: appt.email || undefined, force };
     setLoading("new");
     try {
       const res = await fetch("/api/admin/patients", {
