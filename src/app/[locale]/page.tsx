@@ -1,101 +1,104 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import { FAQ } from "@/components/FAQ";
 
 type Props = { params: Promise<{ locale: string }> };
 
 type ServiceItem = { title: string; desc: string; slug: string; img: string };
 type FeatureItem = { title: string; desc: string; img: string };
+type FaqItem = { question: string; answer: string };
 
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "home" });
   const tServices = await getTranslations({ locale, namespace: "services" });
+  const tAbout = await getTranslations({ locale, namespace: "about" });
+  const rtl = locale === "ar";
 
   return (
     <div>
       {/* ─── HERO ─── */}
-      <section className="relative flex min-h-[90vh] items-center justify-center overflow-hidden dental-pattern">
-        <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, var(--color-primary-light) 0%, oklch(95% 0.02 190) 50%, #fff 100%)" }} />
-        <div className="anim-blob absolute -left-32 -top-32 h-96 w-96 opacity-20" style={{ background: "var(--color-primary)" }} />
-        <div className="anim-blob absolute -bottom-32 -right-32 h-96 w-96 opacity-15" style={{ background: "var(--color-primary-dark)", animationDelay: "-4s" }} />
-        <div className="anim-blob absolute left-1/3 top-1/3 h-64 w-64 opacity-10" style={{ background: "var(--color-accent)", animationDelay: "-2s" }} />
-        <div className="absolute inset-0" style={{ background: "radial-gradient(circle at 80% 20%, oklch(60% 0.12 190 / 0.06) 0%, transparent 50%)" }} />
-        <div className="anim-float absolute -right-10 top-20 opacity-[0.04]" style={{ animationDelay: "0.5s" }}>
-          <svg viewBox="0 0 24 24" className="h-[180px] w-[180px] anim-tooth-rotate" fill="none" stroke="var(--color-primary)" strokeWidth="1.5">
-            <path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/>
-          </svg>
+      <section className="relative min-h-[85vh] overflow-hidden" style={{ background: "linear-gradient(135deg, oklch(95% 0.02 190) 0%, #fff 50%, oklch(97% 0.015 190) 100%)" }}>
+        <div className="anim-float absolute -right-20 -top-20 opacity-[0.03]">
+          <svg viewBox="0 0 24 24" className="h-[260px] w-[260px]" fill="var(--color-primary)" stroke="none"><path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/></svg>
         </div>
-        <div className="anim-float absolute -left-10 bottom-20 opacity-[0.04]" style={{ animationDelay: "2.5s" }}>
-          <svg viewBox="0 0 24 24" className="h-[220px] w-[220px]" fill="none" stroke="var(--color-primary-dark)" strokeWidth="1.5">
-            <path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/>
-          </svg>
+        <div className="anim-float absolute -bottom-24 -left-24 opacity-[0.02]" style={{ animationDelay: "2s" }}>
+          <svg viewBox="0 0 24 24" className="h-[300px] w-[300px]" fill="var(--color-primary-dark)" stroke="none"><path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/></svg>
         </div>
 
-        <div className="relative z-10 mx-auto max-w-3xl px-4 text-center">
-          <div className="anim-fade-in-up mb-6 inline-flex items-center gap-2 rounded-full px-5 py-2 text-xs font-semibold tracking-wide uppercase shadow-sm" style={{ backgroundColor: "oklch(60% 0.12 190 / 0.1)", color: "var(--color-primary)" }}>
-            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/></svg>
-            Cabinet Dentaire {locale === "fr" ? "[ville]" : "[مدينة]"}
-          </div>
-          <h1 className="anim-fade-in-up anim-delay-1 mb-6 text-4xl font-extrabold leading-tight md:text-6xl" style={{ color: "var(--color-primary-dark)" }}>
-            {t("title")}
-          </h1>
-          <p className="anim-fade-in-up anim-delay-2 mx-auto mb-4 max-w-xl text-lg leading-relaxed md:text-xl" style={{ color: "oklch(40% 0.02 190 / 0.8)" }}>
-            {t("subtitle")}
-          </p>
-          <p className="anim-fade-in-up anim-delay-2 mx-auto mb-10 max-w-2xl leading-relaxed opacity-70">
-            {t("description")}
-          </p>
-          <div className="anim-fade-in-up anim-delay-3 flex flex-wrap justify-center gap-4">
-            <Link href={locale === "fr" ? "/booking" : `/${locale}/booking`} className="btn-primary text-base">
-              {t("cta_booking")}
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-            </Link>
-            <Link href={locale === "fr" ? "/contact" : `/${locale}/contact`} className="btn-outline text-base">
-              {t("cta_contact")}
-            </Link>
-          </div>
-        </div>
-      </section>
+        <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 px-4 py-20 md:flex-row md:py-28">
+          <div className={`flex-1 text-center ${rtl ? "md:text-right" : "md:text-left"} ${rtl ? "md:order-2" : ""}`}>
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide uppercase shadow-sm" style={{ backgroundColor: "oklch(60% 0.12 190 / 0.1)", color: "var(--color-primary)" }}>
+              <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/></svg>
+              Cabinet Dentaire
+            </div>
 
-      {/* ─── FEATURES ─── */}
-      <section className="mx-auto max-w-6xl px-4 py-24">
-        <div className="anim-fade-in-up mb-14 text-center">
-          <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>Pourquoi nous choisir</span>
-          <h2 className="text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
-            {t("features_title")}
-          </h2>
-        </div>
-        <div className="grid gap-8 md:grid-cols-3">
-          {(t.raw("features") as FeatureItem[]).map((f, i) => (
-            <div key={i} className={`anim-fade-in-up anim-delay-${i + 1} card-hover group overflow-hidden rounded-2xl`} style={{ backgroundColor: "#fff" }}>
-              <div className="relative h-52 overflow-hidden">
-                <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 50%, oklch(0% 0 0 / 0.3))", zIndex: 1 }} />
-                <img src={f.img} alt={f.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              </div>
-              <div className="p-6">
-                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold text-white" style={{ backgroundColor: "var(--color-primary)" }}>
-                  {i + 1}
+            <h1 className="mb-6 text-4xl font-extrabold leading-tight md:text-5xl lg:text-6xl" style={{ color: "var(--color-primary-dark)" }}>
+              {t("title")}
+            </h1>
+
+            <p className="mx-auto mb-3 max-w-lg text-lg font-medium md:text-xl" style={{ color: "var(--color-primary)" }}>
+              {t("subtitle")}
+            </p>
+            <p className="mx-auto mb-8 max-w-xl leading-relaxed opacity-70">
+              {t("description")}
+            </p>
+
+            <div className="mb-8 flex flex-wrap justify-center gap-4 md:justify-start">
+              <Link href={locale === "fr" ? "/booking" : `/${locale}/booking`} className="btn-primary text-base">
+                {t("cta_booking")}
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d={rtl ? "M7 16l-4-4m0 0l4-4m-4 4h18" : "M17 8l4 4m0 0l-4 4m4-4H3"} /></svg>
+              </Link>
+              <a href={`https://wa.me/2125XXXXXXX?text=${encodeURIComponent("Bonjour, je souhaite prendre rendez-vous...")}`} target="_blank" rel="noopener noreferrer"
+                className="btn-outline text-base">
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                WhatsApp
+              </a>
+            </div>
+
+            <div className={`flex flex-wrap items-center gap-6 text-sm ${rtl ? "md:justify-end" : ""} justify-center md:justify-start`}>
+              <div className="flex items-center gap-2">
+                <div className="flex">
+                  {[1,2,3,4,5].map((s) => (
+                    <svg key={s} className="h-4 w-4" viewBox="0 0 20 20" fill="oklch(70% 0.2 80)"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  ))}
                 </div>
-                <h3 className="mb-3 text-xl font-semibold" style={{ color: "var(--color-primary-dark)" }}>{f.title}</h3>
-                <p className="leading-relaxed opacity-75">{f.desc}</p>
+                <span className="font-semibold opacity-80">4.9/5</span>
+              </div>
+              <span className="opacity-50">•</span>
+              <span className="opacity-70">15+ {locale === "fr" ? "ans d'expérience" : "سنوات من الخبرة"}</span>
+              <span className="opacity-50">•</span>
+              <span className="opacity-70">5000+ {locale === "fr" ? "patients" : "مريض"}</span>
+            </div>
+          </div>
+
+          <div className={`flex-1 ${rtl ? "md:order-1" : ""}`}>
+            <div className="relative mx-auto max-w-md">
+              <div className="absolute -inset-4 rounded-[2rem] opacity-30 blur-xl" style={{ background: "var(--color-primary)" }} />
+              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+                <img
+                  src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&q=85"
+                  alt="Cabinet Dentaire"
+                  className="h-full w-full object-cover"
+                  style={{ aspectRatio: "4/5", minHeight: "400px" }}
+                />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(0deg, oklch(0% 0 0 / 0.4) 0%, transparent 50%)" }} />
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <p className="text-lg font-bold">Dr. [Nom]</p>
+                  <p className="text-sm text-white/80">{locale === "fr" ? "Chirurgien-Dentiste" : "طبيب أسنان"}</p>
+                </div>
               </div>
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
       {/* ─── STATS ─── */}
-      <section className="relative overflow-hidden px-4 py-20" style={{ background: "linear-gradient(135deg, var(--color-primary-dark), var(--color-primary))" }}>
-        <div className="anim-float absolute -right-16 -top-16 opacity-[0.04]">
-          <svg viewBox="0 0 24 24" className="h-[200px] w-[200px]" fill="currentColor" style={{ color: "#fff" }}><path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/></svg>
-        </div>
-        <div className="anim-float absolute -bottom-20 -left-20 opacity-[0.04]" style={{ animationDelay: "2s" }}>
-          <svg viewBox="0 0 24 24" className="h-[250px] w-[250px]" fill="currentColor" style={{ color: "#fff" }}><path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/></svg>
-        </div>
+      <section className="relative overflow-hidden px-4 py-16" style={{ background: "linear-gradient(135deg, var(--color-primary-dark), var(--color-primary))" }}>
         <div className="relative mx-auto max-w-6xl">
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
             {(t.raw("stats") as Array<{ value: string; label: string }>).map((s, i) => (
-              <div key={i} className={`anim-fade-in-up text-center`} style={{ animationDelay: `${i * 0.15}s` }}>
+              <div key={i} className="text-center">
                 <div className="text-4xl font-extrabold text-white md:text-5xl">{s.value}</div>
                 <div className="mt-2 text-sm font-medium text-white/70">{s.label}</div>
               </div>
@@ -104,9 +107,93 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
+      {/* ─── FEATURES ─── */}
+      <section className="mx-auto max-w-6xl px-4 py-24">
+        <div className="mb-14 text-center">
+          <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>Pourquoi nous choisir</span>
+          <h2 className="text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
+            {t("features_title")}
+          </h2>
+        </div>
+        <div className="grid gap-6 md:grid-cols-3">
+          {(t.raw("features") as FeatureItem[]).map((f, i) => (
+            <div key={i} className="card-hover group overflow-hidden rounded-2xl" style={{ backgroundColor: "#fff" }}>
+              <div className="relative h-48 overflow-hidden">
+                <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 50%, oklch(0% 0 0 / 0.3))", zIndex: 1 }} />
+                <img src={f.img} alt={f.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              </div>
+              <div className="p-6">
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold text-white" style={{ backgroundColor: "var(--color-primary)" }}>
+                  {i + 1}
+                </div>
+                <h3 className="mb-2 text-lg font-semibold" style={{ color: "var(--color-primary-dark)" }}>{f.title}</h3>
+                <p className="text-sm leading-relaxed opacity-70">{f.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ─── DOCTOR ─── */}
+      <section className="px-4 py-24" style={{ backgroundColor: "oklch(97% 0.015 190 / 0.5)" }}>
+        <div className="mx-auto max-w-6xl">
+          <div className={`flex flex-col items-center gap-12 md:flex-row ${rtl ? "md:flex-row-reverse" : ""}`}>
+            <div className="flex-1">
+              <div className="relative mx-auto max-w-sm">
+                <div className="absolute -inset-2 rounded-2xl opacity-20" style={{ background: "var(--color-primary)" }} />
+                <div className="relative overflow-hidden rounded-xl shadow-lg">
+                  <img
+                    src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500&q=85"
+                    alt={tAbout("photo_alt")}
+                    className="w-full object-cover"
+                    style={{ aspectRatio: "3/4" }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className={`flex-1 text-center ${rtl ? "md:text-right" : "md:text-left"}`}>
+              <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>
+                {locale === "fr" ? "Votre Chirurgien-Dentiste" : "طبيب أسنانك"}
+              </span>
+              <h2 className="mb-2 text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
+                {tAbout("title")}
+              </h2>
+              <p className="mb-6 text-lg" style={{ color: "var(--color-primary)" }}>
+                {tAbout("subtitle")}
+              </p>
+              <div className="space-y-3 text-sm leading-relaxed opacity-75">
+                {(tAbout.raw("paragraphs") as string[]).map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
+
+              <div className="mt-8">
+                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider" style={{ color: "var(--color-primary-dark)" }}>
+                  {tAbout("diplomas_title")}
+                </h3>
+                <ul className={`space-y-1.5 ${rtl ? "md:text-right" : ""}`}>
+                  {(tAbout.raw("diplomas") as string[]).map((d, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm">
+                      <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="var(--color-primary)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                      {d}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-8">
+                <Link href={locale === "fr" ? "/booking" : `/${locale}/booking`} className="btn-primary text-base">
+                  {t("cta_booking")}
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ─── SERVICES ─── */}
       <section className="mx-auto max-w-6xl px-4 py-24">
-        <div className="anim-fade-in-up mb-14 text-center">
+        <div className="mb-14 text-center">
           <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>Nos services</span>
           <h2 className="mb-4 text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
             {t("services_title")}
@@ -114,8 +201,8 @@ export default async function HomePage({ params }: Props) {
           <p className="mx-auto max-w-xl leading-relaxed opacity-70">{t("services_desc")}</p>
         </div>
         <div className="grid gap-6 md:grid-cols-3">
-          {(tServices.raw("items") as ServiceItem[]).slice(0, 3).map((item, i) => (
-            <Link key={item.slug} href={`/${locale}/services/${item.slug}`} className={`anim-fade-in-up anim-delay-${i + 1} card-hover group overflow-hidden rounded-2xl`} style={{ backgroundColor: "#fff" }}>
+          {(tServices.raw("items") as ServiceItem[]).slice(0, 6).map((item, i) => (
+            <Link key={item.slug} href={`/${locale}/services/${item.slug}`} className="card-hover group overflow-hidden rounded-2xl" style={{ backgroundColor: "#fff" }}>
               <div className="relative h-44 overflow-hidden">
                 <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 50%, oklch(0% 0 0 / 0.3))", zIndex: 1 }} />
                 <img src={item.img} alt={item.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -124,39 +211,52 @@ export default async function HomePage({ params }: Props) {
                 <h3 className="mb-2 font-semibold" style={{ color: "var(--color-primary)" }}>{item.title}</h3>
                 <p className="text-sm leading-relaxed opacity-70">{item.desc}</p>
                 <div className="mt-3 flex items-center gap-1 text-xs font-semibold" style={{ color: "var(--color-primary)" }}>
-                  En savoir plus <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  {locale === "fr" ? "En savoir plus" : "اقرأ المزيد"} <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </div>
               </div>
             </Link>
           ))}
         </div>
-        <div className="anim-fade-in-up mt-10 text-center">
+        <div className="mt-10 text-center">
           <Link href={`/${locale}/services`} className="btn-outline">
             {locale === "fr" ? "Voir tous nos services" : "عرض جميع الخدمات"}
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={rtl ? "M7 16l-4-4m0 0l4-4m-4 4h18" : "M17 8l4 4m0 0l-4 4m4-4H3"} /></svg>
           </Link>
         </div>
       </section>
 
+      {/* ─── FAQ ─── */}
+      {(t.raw("faq") as FaqItem[] | undefined) && (
+        <section className="px-4 py-24" style={{ backgroundColor: "oklch(97% 0.015 190 / 0.5)" }}>
+          <div className="mx-auto max-w-3xl">
+            <div className="mb-12 text-center">
+              <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>
+                FAQ
+              </span>
+              <h2 className="text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
+                {locale === "fr" ? "Questions Fréquentes" : "الأسئلة الشائعة"}
+              </h2>
+            </div>
+            <FAQ items={t.raw("faq") as FaqItem[]} />
+          </div>
+        </section>
+      )}
+
       {/* ─── CTA ─── */}
       <section className="relative overflow-hidden px-4 py-24 text-center" style={{ background: "linear-gradient(135deg, oklch(92% 0.02 190), #fff)" }}>
-        <div className="anim-float absolute -right-10 -top-10 opacity-[0.04]">
-          <svg viewBox="0 0 24 24" className="h-[150px] w-[150px]" fill="none" stroke="var(--color-primary)" strokeWidth="1.5"><path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/></svg>
-        </div>
-        <div className="anim-float absolute -bottom-10 -left-10 opacity-[0.04]" style={{ animationDelay: "2.5s" }}>
-          <svg viewBox="0 0 24 24" className="h-[180px] w-[180px]" fill="none" stroke="var(--color-primary-dark)" strokeWidth="1.5"><path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/></svg>
-        </div>
         <div className="anim-blob absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 opacity-[0.03]" style={{ background: "var(--color-primary-dark)" }} />
         <div className="relative mx-auto max-w-xl">
           <h2 className="mb-4 text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>{t("cta_section_title")}</h2>
           <p className="mb-8 text-lg opacity-70">{t("cta_section_desc")}</p>
-          <Link
-            href={locale === "fr" ? "/booking" : `/${locale}/booking`}
-            className="btn-primary text-lg"
-          >
-            {t("cta_booking")}
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-          </Link>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link href={locale === "fr" ? "/booking" : `/${locale}/booking`} className="btn-primary text-lg">
+              {t("cta_booking")}
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d={rtl ? "M7 16l-4-4m0 0l4-4m-4 4h18" : "M17 8l4 4m0 0l-4 4m4-4H3"} /></svg>
+            </Link>
+            <Link href={locale === "fr" ? "/contact" : `/${locale}/contact`} className="btn-outline text-lg">
+              {locale === "fr" ? "Nous contacter" : "اتصل بنا"}
+            </Link>
+          </div>
         </div>
       </section>
     </div>

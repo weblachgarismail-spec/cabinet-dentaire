@@ -53,9 +53,31 @@
                            ],
                  "services_title":  "Nos Services",
                  "services_desc":  "Des soins complets pour votre santé bucco-dentaire, du diagnostic à la chirurgie.",
-                 "cta_section_title":  "Prêt pour votre prochain rendez-vous ?",
-                 "cta_section_desc":  "Réservez dès maintenant une consultation dans notre cabinet à [ville]."
-             },
+                  "cta_section_title":  "Prêt pour votre prochain rendez-vous ?",
+                  "cta_section_desc":  "Réservez dès maintenant une consultation dans notre cabinet à [ville].",
+                  "faq":  [
+                              {
+                                  "question":  "Les soins dentaires sont-ils douloureux ?",
+                                  "answer":  "Non, grâce à nos techniques modernes d'anesthésie et notre approche en douceur, la grande majorité des soins sont indolores. Nous utilisons des anesthésiants de dernière génération et des protocoles de confort pour chaque patient."
+                              },
+                              {
+                                  "question":  "Combien coûte une consultation ?",
+                                  "answer":  "Le tarif de la consultation est de 300 à 500 MAD selon le type de soin. Nous acceptons les assurances CNSS, CNOPS, et offrons des facilités de paiement. Contactez-nous pour un devis personnalisé."
+                              },
+                              {
+                                  "question":  "Puis-je avoir un implant en une seule visite ?",
+                                  "answer":  "Oui, grâce à notre technologie numérique (scanner 3D, conception assistée par ordinateur), nous pouvons poser des implants en une seule séance dans la plupart des cas. Une consultation préalable est nécessaire pour évaluer votre situation."
+                              },
+                              {
+                                  "question":  "Acceptez-vous les urgences dentaires ?",
+                                  "answer":  "Oui, nous avons un service d'urgence pour les cas aigus : douleurs sévères, abcès, traumatismes dentaires. Contactez-nous par téléphone pour une consultation rapide, généralement sous 24h."
+                              },
+                              {
+                                  "question":  "Où se trouve le cabinet exactement ?",
+                                  "answer":  "Notre cabinet est situé au cœur de [ville], dans un espace moderne et accessible. Consultez notre page Contact pour l'adresse exacte et un plan d'accès."
+                              }
+                          ]
+              },
     "about":  {
                   "title":  "À propos du Dr. [Nom]",
                   "subtitle":  "Chirurgien-Dentiste à [ville]",
