@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import BookingModal from "@/components/BookingModal";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -151,13 +152,7 @@ export default async function AboutPage({ params }: Props) {
         <div className="relative mx-auto max-w-xl">
           <h2 className="mb-4 text-3xl font-bold text-white">{t("cta_title")}</h2>
           <p className="mb-8 text-lg text-white/80">{t("cta_desc")}</p>
-          <Link
-            href={locale === "fr" ? "/booking" : `/${locale}/booking`}
-            className="inline-block rounded-full bg-white px-8 py-3 font-semibold transition-transform hover:scale-105"
-            style={{ color: "var(--color-primary)" }}
-          >
-            {locale === "fr" ? "Prendre un rendez-vous" : "احجز موعدًا"}
-          </Link>
+          <BookingModal label={locale === "fr" ? "Prendre un rendez-vous" : "احجز موعدًا"} className="inline-block rounded-full bg-white px-8 py-3 font-semibold transition-transform hover:scale-105" />
         </div>
       </section>
     </div>
