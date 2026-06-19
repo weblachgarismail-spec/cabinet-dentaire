@@ -8,15 +8,15 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { date, time, patientName, phone, email, city, notes } = body;
 
-    if (!date || !time || !patientName || !phone) {
+    if (!date || !patientName || !phone) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const appointment = await createAppointment({ date, time, patientName, phone, email, city, notes });
-    logger.info("Appointment created", { id: appointment.id, date, time });
+    const appointment = await createAppointment({ date, time: time || undefined, patientName, phone, email, city, notes });
+    logger.info("Appointment created", { id: appointment.id, date, time: time || "À confirmer" });
 
     if (email) {
-      sendConfirmationEmail({ to: email, patientName, date, time }).catch((err) =>
+      sendConfirmationEmail({ to: email, patientName, date, time: time || undefined }).catch((err) =>
         logger.error("Failed to send confirmation email", { error: err, appointmentId: appointment.id })
       );
     }

@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/navigation";
 import { CalendarPicker } from "@/components/booking/CalendarPicker";
-import { TimeSlotPicker } from "@/components/booking/TimeSlotPicker";
 
 export default function BookingPage() {
   const locale = useLocale();
@@ -14,43 +13,22 @@ export default function BookingPage() {
 
   const [step, setStep] = useState(1);
   const [date, setDate] = useState<string | null>(null);
-  const [time, setTime] = useState<string | null>(null);
-  const [slots, setSlots] = useState<string[]>([]);
-  const [slotsLoading, setSlotsLoading] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [city, setCity] = useState("");
-  const [notes, setNotes] = useState("");
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  const rtl = locale === "ar";
 
-  const handleDateSelect = useCallback(async (d: string) => {
+  const handleDateSelect = useCallback((d: string) => {
     setDate(d);
-    setTime(null);
-    setSlotsLoading(true);
-    setSubmitError("");
-    try {
-      const res = await fetch(`/api/slots?date=${d}`);
-      if (!res.ok) throw new Error("Failed to load slots");
-      const data = await res.json();
-      setSlots(data.slots);
-      setStep(2);
-    } catch {
-      setSubmitError(t("slot_unavailable"));
-    } finally {
-      setSlotsLoading(false);
-    }
-  }, [t]);
+    setStep(2);
+  }, []);
 
   const handleSubmit = useCallback(async () => {
     const errs: Record<string, string> = {};
     if (!name.trim()) errs.name = t("form_name_error");
     if (!phone.trim() || phone.trim().length < 7) errs.phone = t("form_phone_error");
-    if (!city.trim()) errs.city = t("form_city_error");
     if (!consent) errs.consent = t("form_consent_error");
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
@@ -61,23 +39,21 @@ export default function BookingPage() {
       const res = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ date, time, patientName: name.trim(), phone: phone.trim(), email: email.trim() || undefined, city: city.trim() || undefined, notes: notes.trim() || undefined }),
+        body: JSON.stringify({ date, patientName: name.trim(), phone: phone.trim() }),
       });
 
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error === "SLOT_UNAVAILABLE" ? "conflict" : "generic");
+        throw new Error("generic");
       }
 
-      const params = new URLSearchParams({ date: date!, time: time! });
+      const params = new URLSearchParams({ date: date! });
       router.push(`${locale === "fr" ? "" : `/${locale}`}/booking/confirm?${params}`);
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : "";
-      setSubmitError(msg === "conflict" ? t("conflict_error") : t("slot_unavailable"));
+    } catch {
+      setSubmitError(t("slot_unavailable"));
     } finally {
       setSubmitting(false);
     }
-  }, [name, phone, email, city, notes, consent, date, time, t, router, locale]);
+  }, [name, phone, consent, date, t, router, locale]);
 
   return (
     <div className="relative min-h-screen" style={{ background: "linear-gradient(180deg, oklch(95% 0.02 190) 0%, #fff 100%)" }}>
@@ -95,7 +71,7 @@ export default function BookingPage() {
             {t("title")}
           </h1>
           <p className="text-sm opacity-60">
-            {step === 1 ? "Choisissez une date disponible" : step === 2 ? "Sélectionnez un créneau" : "Complétez vos informations"}
+            {step === 1 ? t("step1_subtitle") : t("step2_subtitle")}
           </p>
         </div>
       </div>
@@ -109,7 +85,7 @@ export default function BookingPage() {
 
         {/* Progress */}
         <div className="mb-10 flex items-center justify-center gap-3">
-          {[1, 2, 3].map((s) => (
+          {[1, 2].map((s) => (
             <div key={s} className="flex items-center gap-3">
               <div className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold transition-all duration-500 ${step === s ? "scale-110 shadow-lg" : step > s ? "scale-100" : "opacity-30"}`}
                 style={{
@@ -121,7 +97,7 @@ export default function BookingPage() {
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                 ) : s}
               </div>
-              {s < 3 && (
+              {s < 2 && (
                 <div className="h-0.5 w-10 rounded transition-all duration-500" style={{ backgroundColor: step > s ? "var(--color-primary)" : "oklch(88% 0.01 190)" }} />
               )}
             </div>
@@ -129,56 +105,27 @@ export default function BookingPage() {
         </div>
 
         <div className="overflow-hidden rounded-2xl border p-6 shadow-sm md:p-8" style={{ backgroundColor: "#fff", borderColor: "oklch(90% 0.01 190)" }}>
-          <div key={step} className={`${step === 1 ? "" : step === 2 ? "anim-slide-in-right" : "anim-slide-in-left"}`}>
-            {step >= 1 && (
-              <div>
-                <h2 className="mb-6 text-center text-xl font-semibold" style={{ color: "var(--color-primary-dark)" }}>{t("step1_title")}</h2>
-                <CalendarPicker selected={date} onSelect={handleDateSelect} />
-              </div>
-            )}
-
-            {step >= 2 && (
-              <div>
-                <h2 className="mb-6 text-center text-xl font-semibold" style={{ color: "var(--color-primary-dark)" }}>{t("step2_title")}</h2>
-                <TimeSlotPicker slots={slots} selected={time} selectedDate={date} onSelect={(t) => { setTime(t); setStep(3); }} loading={slotsLoading} />
-              </div>
-            )}
-          </div>
-
-          {step >= 3 && time && (
+          {step === 1 && (
             <div>
-              <h2 className="mb-2 text-center text-xl font-semibold" style={{ color: "var(--color-primary-dark)" }}>{t("step3_title")}</h2>
+              <h2 className="mb-6 text-center text-xl font-semibold" style={{ color: "var(--color-primary-dark)" }}>{t("step1_title")}</h2>
+              <CalendarPicker selected={date} onSelect={handleDateSelect} />
+            </div>
+          )}
+
+          {step === 2 && date && (
+            <div>
+              <h2 className="mb-2 text-center text-xl font-semibold" style={{ color: "var(--color-primary-dark)" }}>{t("step2_title")}</h2>
               <div className="mb-6 rounded-xl p-4 text-center" style={{ backgroundColor: "oklch(55% 0.12 190 / 0.08)" }}>
-                <p className="text-sm opacity-70">{t("slot_selected")}</p>
-                <p className="mt-1 text-lg font-bold" style={{ color: "var(--color-primary)" }}>{date} — {time}</p>
+                <p className="text-sm opacity-70">Date choisie</p>
+                <p className="mt-1 text-lg font-bold" style={{ color: "var(--color-primary)" }}>{date}</p>
               </div>
 
               <div className="space-y-4">
-                {(["name", "phone", "email", "city"] as const).map((field) => (
-                  <div key={field}>
-                    {field === "name" && (
-                      <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder={t("form_name")} className="input-modern" style={{ borderColor: errors.name ? "#ef4444" : undefined }} />
-                    )}
-                    {field === "phone" && (
-                      <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder={t("form_phone")} className="input-modern" style={{ borderColor: errors.phone ? "#ef4444" : undefined }} />
-                    )}
-                    {field === "email" && (
-                      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t("form_email")} className="input-modern" />
-                    )}
-                    {field === "city" && (
-                      <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder={t("form_city")} className="input-modern" style={{ borderColor: errors.city ? "#ef4444" : undefined }} />
-                    )}
-                    {errors[field] && <p className="mt-1 text-xs text-red-500">{errors[field]}</p>}
-                  </div>
-                ))}
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder={t("form_name")} className="input-modern" style={{ borderColor: errors.name ? "#ef4444" : undefined }} />
+                {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
 
-                <textarea
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  placeholder={t("form_notes")}
-                  rows={3}
-                  className="input-modern resize-none"
-                />
+                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder={t("form_phone")} className="input-modern" style={{ borderColor: errors.phone ? "#ef4444" : undefined }} />
+                {errors.phone && <p className="mt-1 text-xs text-red-500">{errors.phone}</p>}
 
                 <label className="flex cursor-pointer items-start gap-2.5 text-xs opacity-70 hover:opacity-100">
                   <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-4 w-4 rounded" style={{ accentColor: "var(--color-primary)" }} />
@@ -198,6 +145,10 @@ export default function BookingPage() {
                     </span>
                   ) : t("form_submit")}
                 </button>
+
+                <p className="pt-2 text-center text-xs opacity-50">
+                  {t("callback_notice")}
+                </p>
               </div>
             </div>
           )}

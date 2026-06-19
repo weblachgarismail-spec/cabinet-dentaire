@@ -82,7 +82,7 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
       const fd = new Date(filterDate);
       if (d.toDateString() !== fd.toDateString()) return false;
     }
-    if (filterTime && !a.time.startsWith(filterTime)) return false;
+    if (filterTime && !a.time?.startsWith(filterTime)) return false;
     return true;
   });
 
@@ -95,7 +95,7 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
     if (dismissedReminders.has(a.id)) return false;
     const ad = new Date(a.date);
     const today = new Date(currentTime);
-    if (ad.toDateString() !== today.toDateString()) return false;
+    if (ad.toDateString() !== today.toDateString() || !a.time) return false;
     const aptMin = parseTime(a.time);
     const nowMin = currentTime.getHours() * 60 + currentTime.getMinutes();
     const diff = aptMin - nowMin;
@@ -220,7 +220,7 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
     if (a.status !== "CONFIRMED" || a.arrivedAt) return false;
     const ad = new Date(a.date);
     const today = new Date(currentTime);
-    if (ad.toDateString() !== today.toDateString()) return false;
+    if (ad.toDateString() !== today.toDateString() || !a.time) return false;
     const aptMin = parseTime(a.time);
     const nowMin = currentTime.getHours() * 60 + currentTime.getMinutes();
     return nowMin > aptMin + 15;
@@ -287,7 +287,7 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
           <ul className="space-y-1">
             {upcomingReminders.map((a) => (
               <li key={a.id} className="flex items-center justify-between text-sm text-blue-700">
-                <span>{a.time} — {a.patientName} ({a.phone})</span>
+                <span>{a.time || "—"} — {a.patientName} ({a.phone})</span>
                 <div className="flex gap-2">
                   <button
                     onClick={() => updateStatus(a.id, "ARRIVED")}
@@ -428,7 +428,7 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
                   }}
                 >
                   <td className="p-3">{new Date(a.date).toLocaleDateString(locale === "ar" ? "ar-SA" : "fr-FR")}</td>
-                  <td className="p-3">{a.time}</td>
+                  <td className="p-3">{a.time || "—"}</td>
                   <td className="p-3">{a.patientName}</td>
                   <td className="p-3">{a.phone}</td>
                   <td className="p-3">{a.city || "—"}</td>

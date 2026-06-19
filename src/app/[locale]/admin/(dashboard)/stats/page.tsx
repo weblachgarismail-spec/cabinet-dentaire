@@ -128,7 +128,7 @@ export default function StatsPage() {
               <div key={a.id} className="flex items-center justify-between rounded-lg px-3 py-2" style={{ backgroundColor: "#f9fafb" }}>
                 <div>
                   <div className="text-sm font-medium">{a.patientName}</div>
-                  <div className="text-xs opacity-50">{new Date(a.date).toLocaleDateString()} {a.time}</div>
+                  <div className="text-xs opacity-50">{new Date(a.date).toLocaleDateString()} {a.time || "—"}</div>
                 </div>
                 <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${a.status === "CANCELLED" ? "text-red-600" : a.status === "ARRIVED" ? "text-green-600" : "text-blue-600"}`} style={{ backgroundColor: a.status === "CANCELLED" ? "#fef2f2" : a.status === "ARRIVED" ? "#f0fdf4" : "#eff6ff" }}>
                   {t(`status_${a.status}`)}

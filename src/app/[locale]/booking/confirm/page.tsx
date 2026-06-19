@@ -3,12 +3,12 @@ import Link from "next/link";
 
 type Props = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ date?: string; time?: string }>;
+  searchParams: Promise<{ date?: string }>;
 };
 
 export default async function ConfirmPage({ params, searchParams }: Props) {
   const { locale } = await params;
-  const { date, time } = await searchParams;
+  const { date } = await searchParams;
   const t = await getTranslations({ locale, namespace: "booking" });
 
   return (
@@ -20,7 +20,7 @@ export default async function ConfirmPage({ params, searchParams }: Props) {
         {t("confirm_title")}
       </h1>
       <p className="mb-8 text-lg opacity-75">
-        {t("confirm_msg", { date: date || "...", time: time || "..." })}
+        {t("confirm_msg", { date: date || "..." })}
       </p>
       <Link
         href={locale === "fr" ? "/" : `/${locale}`}

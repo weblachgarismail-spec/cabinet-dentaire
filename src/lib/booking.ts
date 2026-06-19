@@ -74,7 +74,7 @@ export async function getAvailableSlots(date: string) {
   if (holidays.length > 0) return [];
 
   const cfg = await getConfig();
-  const bookedTimes = new Set(appointments.map((a) => a.time));
+  const bookedTimes = new Set(appointments.map((a) => a.time).filter((t): t is string => t !== null));
   const now = getMoroccoNow();
   const nowMinutes = now.hours * 60 + now.minutes;
 
@@ -87,25 +87,27 @@ export async function getAvailableSlots(date: string) {
 
 export async function createAppointment(data: {
   date: string;
-  time: string;
+  time?: string;
   patientName: string;
   phone: string;
   email?: string;
   city?: string;
   notes?: string;
 }) {
-  const existing = await prisma.appointment.findFirst({
-    where: { date: new Date(data.date + "T00:00:00.000Z"), time: data.time, status: { not: "CANCELLED" } },
-  });
-
-  if (existing) {
-    throw new Error("SLOT_UNAVAILABLE");
+  const time = data.time;
+  if (time) {
+    const existing = await prisma.appointment.findFirst({
+      where: { date: new Date(data.date + "T00:00:00.000Z"), time, status: { not: "CANCELLED" } },
+    });
+    if (existing) {
+      throw new Error("SLOT_UNAVAILABLE");
+    }
   }
 
   return prisma.appointment.create({
     data: {
       date: new Date(data.date + "T00:00:00.000Z"),
-      time: data.time,
+      time,
       patientName: data.patientName,
       phone: data.phone,
       email: data.email,
