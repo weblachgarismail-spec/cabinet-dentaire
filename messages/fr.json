@@ -79,32 +79,38 @@
                                    {
                                        "title":  "Cas #23",
                                        "desc":  "Reconstruction complète de la mâchoire supérieure avec implants dentaires.",
-                                       "badge":  "Implants"
+                                       "badge":  "Implants",
+                                       "img":  "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=600&q=85"
                                    },
                                    {
                                        "title":  "Cas #24",
                                        "desc":  "Couronnes dentaires et smile makeover complet.",
-                                       "badge":  "Couronnes"
+                                       "badge":  "Couronnes",
+                                       "img":  "https://images.unsplash.com/photo-1598256989800-fe5f95da9787?w=600&q=85"
                                    },
                                    {
                                        "title":  "Cas #25",
                                        "desc":  "Facettes Emax pour un sourire harmonieux et naturel.",
-                                       "badge":  "Facettes"
+                                       "badge":  "Facettes",
+                                       "img":  "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=600&q=85"
                                    },
                                    {
                                        "title":  "Cas #8",
                                        "desc":  "Facettes céramique pour restauration esthétique antérieure.",
-                                       "badge":  "Facettes"
+                                       "badge":  "Facettes",
+                                       "img":  "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&q=85"
                                    },
                                    {
                                        "title":  "Cas #55",
                                        "desc":  "Blanchiment professionnel — 8 teintes plus claires.",
-                                       "badge":  "Blanchiment"
+                                       "badge":  "Blanchiment",
+                                       "img":  "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=85"
                                    },
                                    {
                                        "title":  "Cas #31",
                                        "desc":  "Facettes directes pour un sourire hollywoodien.",
-                                       "badge":  "Facettes"
+                                       "badge":  "Facettes",
+                                       "img":  "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=600&q=85"
                                    }
                                ],
                    "cta_section_title":  "Prêt pour votre prochain rendez-vous ?",

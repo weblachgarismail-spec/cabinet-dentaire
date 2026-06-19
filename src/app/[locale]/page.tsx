@@ -10,7 +10,7 @@ type ServiceItem = { title: string; desc: string; slug: string; img: string };
 type FeatureItem = { title: string; desc: string; img: string };
 type FaqItem = { question: string; answer: string };
 type TestimonialItem = { name: string; text: string; rating: number };
-type RealisationItem = { title: string; desc: string; badge: string };
+type RealisationItem = { title: string; desc: string; badge: string; img: string };
 
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;

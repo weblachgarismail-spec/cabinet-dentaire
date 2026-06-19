@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
-type RealisationItem = { title: string; desc: string; badge: string };
+type RealisationItem = { title: string; desc: string; badge: string; img: string };
 
 export function RealisationsGallery({ items, locale }: { items: RealisationItem[]; locale: string }) {
   const [filter, setFilter] = useState("Tous");
@@ -34,15 +34,20 @@ export function RealisationsGallery({ items, locale }: { items: RealisationItem[
         {filtered.map((item, i) => (
           <div key={i} className="card-hover group overflow-hidden rounded-2xl shadow-sm transition-all" style={{ backgroundColor: "#fff" }}>
             <div className="relative">
-              <div className="flex aspect-[4/3] items-center justify-center" style={{ background: "linear-gradient(135deg, oklch(95% 0.02 190), oklch(92% 0.02 190))" }}>
-                <div className="flex gap-3 opacity-20">
-                  <svg className="h-14 w-14" viewBox="0 0 24 24" fill="var(--color-primary)"><path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/></svg>
-                  <svg className="h-14 w-14 opacity-50" viewBox="0 0 24 24" fill="var(--color-primary-dark)"><path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/></svg>
+              <div className="flex aspect-[4/3] overflow-hidden">
+                <div className="relative w-1/2 overflow-hidden">
+                  <img src={item.img} alt={`${item.title} - Avant`} className="h-full w-full object-cover" loading="lazy" />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(0deg, oklch(0% 0 0 / 0.4) 0%, transparent 40%)" }} />
                 </div>
-                <span className="absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-semibold text-white" style={{ backgroundColor: "var(--color-primary)" }}>
+                <div className="relative w-1/2 overflow-hidden">
+                  <div className="absolute left-0 top-0 z-10 h-full w-0.5 shadow-lg" style={{ background: "var(--color-primary)", boxShadow: "0 0 8px 2px oklch(60% 0.12 190 / 0.6)" }} />
+                  <img src={item.img} alt={`${item.title} - Après`} className="h-full w-full object-cover brightness-110 saturate-105" loading="lazy" />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(0deg, oklch(0% 0 0 / 0.4) 0%, transparent 40%)" }} />
+                </div>
+                <span className="absolute left-3 top-3 z-20 rounded-full px-3 py-1 text-xs font-semibold text-white" style={{ backgroundColor: "var(--color-primary)" }}>
                   {item.badge}
                 </span>
-                <div className={`absolute inset-x-0 bottom-0 flex justify-center gap-4 pb-3 ${rtl ? "flex-row-reverse" : ""}`}>
+                <div className={`absolute inset-x-0 bottom-0 z-20 flex justify-center gap-4 pb-3 ${rtl ? "flex-row-reverse" : ""}`}>
                   <span className="rounded-lg px-3 py-1 text-xs font-semibold text-white/90 backdrop-blur-sm" style={{ backgroundColor: "oklch(0% 0 0 / 0.5)" }}>
                     {locale === "ar" ? "قبل" : "Avant"}
                   </span>
