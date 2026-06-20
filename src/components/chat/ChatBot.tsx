@@ -57,7 +57,7 @@ export function ChatBot({ open, onToggle }: Props) {
     <>
       {open && (
         <div
-          className="fixed bottom-24 right-6 z-50 flex w-80 flex-col rounded-xl shadow-xl sm:w-96"
+          className="fixed bottom-24 left-6 z-50 flex w-80 flex-col rounded-xl shadow-xl sm:w-96"
           style={{ backgroundColor: "#fff", maxHeight: "500px" }}
         >
           <div className="flex items-center justify-between rounded-t-xl px-4 py-3 text-white" style={{ backgroundColor: "var(--color-primary, #8B5CF6)" }}>
