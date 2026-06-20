@@ -11,6 +11,32 @@ type FeatureItem = { title: string; desc: string; img: string };
 type FaqItem = { question: string; answer: string };
 type TestimonialItem = { name: string; text: string; rating: number };
 type RealisationItem = { title: string; desc: string; badge: string; img: string };
+type WhyUsItem = { title: string; desc: string; icon: string };
+
+const iconMap: Record<string, React.ReactNode> = {
+  graduation: (
+    <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M12 14l9-5-9-5-9 5 9 5z" />
+      <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+    </svg>
+  ),
+  family: (
+    <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+  ),
+  tech: (
+    <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    </svg>
+  ),
+  speed: (
+    <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  ),
+};
 
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
@@ -108,6 +134,62 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
+      {/* ─── RÉALISATIONS ─── */}
+      <section className="px-4 py-24" style={{ backgroundColor: "oklch(97% 0.015 190 / 0.5)" }}>
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-14 text-center">
+            <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>
+              {locale === "fr" ? "Réalisations" : "إنجازاتنا"}
+            </span>
+            <h2 className="text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
+              {locale === "fr" ? "Nos Réalisations" : "إنجازاتنا"}
+            </h2>
+            <p className="mx-auto mt-2 max-w-2xl leading-relaxed opacity-70">
+              {locale === "fr"
+                ? "Transformations Réelles, Résultats Exceptionnels — Découvrez les sourires que nous avons eu le privilège de restaurer."
+                : "تحولات حقيقية، نتائج استثنائية — اكتشف الابتسامات التي كان لنا شرف استعادتها."}
+            </p>
+          </div>
+          <RealisationsGallery items={t.raw("realisations") as RealisationItem[]} locale={locale} />
+        </div>
+      </section>
+
+      {/* ─── POURQUOI NOUS CHOISIR ─── */}
+      <section className="px-4 py-24" style={{ backgroundColor: "#fff" }}>
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-14 text-center">
+            <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>
+              {locale === "fr" ? "Pourquoi Nous ?" : "لماذا نحن؟"}
+            </span>
+            <h2 className="text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
+              {(t.raw("whyus") as { title: string }).title}
+            </h2>
+            {locale === "fr" ? (
+              <p className="mx-auto mt-2 max-w-2xl leading-relaxed opacity-70">
+                L&apos;Excellence Qui Fait la Différence
+              </p>
+            ) : (
+              <p className="mx-auto mt-2 max-w-2xl leading-relaxed opacity-70">
+                التميز الذي يصنع الفرق
+              </p>
+            )}
+          </div>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {((t.raw("whyus") as { items: WhyUsItem[] }).items).map((item, i) => (
+              <div key={i} className="card-hover rounded-2xl p-6 text-center shadow-sm transition-all duration-300 hover:-translate-y-1"
+                style={{ backgroundColor: "#fff", border: "1px solid oklch(93% 0.01 190)" }}>
+                <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl"
+                  style={{ backgroundColor: "oklch(60% 0.12 190 / 0.1)", color: "var(--color-primary)" }}>
+                  {iconMap[item.icon]}
+                </div>
+                <h3 className="mb-3 text-lg font-bold" style={{ color: "var(--color-primary-dark)" }}>{item.title}</h3>
+                <p className="text-sm leading-relaxed opacity-70">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ─── DOCTOR ─── */}
       <section className="px-4 py-24" style={{ backgroundColor: "oklch(97% 0.015 190 / 0.5)" }}>
         <div className="mx-auto max-w-6xl">
@@ -160,26 +242,6 @@ export default async function HomePage({ params }: Props) {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ─── RÉALISATIONS ─── */}
-      <section className="px-4 py-24" style={{ backgroundColor: "oklch(97% 0.015 190 / 0.5)" }}>
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-14 text-center">
-            <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>
-              {locale === "fr" ? "Réalisations" : "إنجازاتنا"}
-            </span>
-            <h2 className="text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
-              {locale === "fr" ? "Nos Réalisations" : "إنجازاتنا"}
-            </h2>
-            <p className="mx-auto mt-2 max-w-2xl leading-relaxed opacity-70">
-              {locale === "fr"
-                ? "Transformations Réelles, Résultats Exceptionnels — Découvrez les sourires que nous avons eu le privilège de restaurer."
-                : "تحولات حقيقية، نتائج استثنائية — اكتشف الابتسامات التي كان لنا شرف استعادتها."}
-            </p>
-          </div>
-          <RealisationsGallery items={t.raw("realisations") as RealisationItem[]} locale={locale} />
         </div>
       </section>
 

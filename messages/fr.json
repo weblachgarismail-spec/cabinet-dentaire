@@ -113,7 +113,33 @@
                                        "img":  "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=600&q=85"
                                    }
                                ],
-                   "cta_section_title":  "Prêt pour votre prochain rendez-vous ?",
+                    "whyus":  {
+                                "title":  "Pourquoi Clinique Saada ?",
+                                "subtitle":  "L'Excellence Qui Fait la Différence",
+                                "items":  [
+                                    {
+                                        "title":  "Formation Internationale",
+                                        "desc":  "Formé à Rabat avec les techniques les plus avancées en implantologie et esthétique dentaire.",
+                                        "icon":  "graduation"
+                                    },
+                                    {
+                                        "title":  "Approche Familiale",
+                                        "desc":  "De 3 à 93 ans, chaque patient reçoit des soins personnalisés dans une atmosphère chaleureuse et rassurante.",
+                                        "icon":  "family"
+                                    },
+                                    {
+                                        "title":  "Technologie Avancée",
+                                        "desc":  "Scanner 3D, laser dentaire, microscope opératoire — équipements de dernière génération pour votre confort.",
+                                        "icon":  "tech"
+                                    },
+                                    {
+                                        "title":  "Rapidité Exceptionnelle",
+                                        "desc":  "Implants posés en une seule séance grâce à notre expertise et technologie CAD/CAM de pointe.",
+                                        "icon":  "speed"
+                                    }
+                                ]
+                              },
+                    "cta_section_title":  "Prêt pour votre prochain rendez-vous ?",
                    "cta_section_desc":  "Réservez dès maintenant une consultation dans notre cabinet à [ville].",
                   "faq":  [
                               {
