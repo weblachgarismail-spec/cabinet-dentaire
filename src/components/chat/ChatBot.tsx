@@ -9,10 +9,14 @@ type Message = {
   text: string;
 };
 
-export function ChatBot() {
+type Props = {
+  open: boolean;
+  onToggle: (v: boolean) => void;
+};
+
+export function ChatBot({ open, onToggle }: Props) {
   const locale = useLocale();
   const t = useTranslations("chat");
-  const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     { role: "bot", text: t("welcome") },
   ]);
@@ -58,7 +62,7 @@ export function ChatBot() {
         >
           <div className="flex items-center justify-between rounded-t-xl px-4 py-3 text-white" style={{ backgroundColor: "var(--color-primary, #8B5CF6)" }}>
             <span className="font-semibold">{t("title")}</span>
-            <button onClick={() => setOpen(false)} className="text-white/80 hover:text-white">&times;</button>
+            <button onClick={() => onToggle(false)} className="text-white/80 hover:text-white">&times;</button>
           </div>
           <div className="flex-1 space-y-3 overflow-y-auto p-4" style={{ maxHeight: "350px" }}>
             {messages.map((m, i) => (
@@ -118,16 +122,6 @@ export function ChatBot() {
           </div>
         </div>
       )}
-      <button
-        onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-20 z-50 flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-110"
-        style={{ backgroundColor: "var(--color-primary, #8B5CF6)" }}
-        aria-label="Chat"
-      >
-        <svg className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
-      </button>
     </>
   );
 }

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useLocale } from "next-intl";
 import { useSession } from "next-auth/react";
 import { Link, usePathname } from "@/navigation";
+import { ChatBot } from "@/components/chat/ChatBot";
 
 type Props = { navLabels: Record<string, string> };
 
@@ -15,6 +16,7 @@ export function Header({ navLabels }: Props) {
   const { status } = useSession();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
   const targetLocale = currentLocale === "fr" ? "ar" : "fr";
 
   useEffect(() => {
@@ -36,7 +38,7 @@ export function Header({ navLabels }: Props) {
             <span className="hidden sm:inline">Cabinet Dentaire</span>
             <span className="sm:hidden">Cabinet</span>
           </Link>
-          <div className="md:hidden" /> {/* spacer */}
+          <div className="md:hidden" />
         </div>
       </header>
     );
@@ -66,6 +68,13 @@ export function Header({ navLabels }: Props) {
               {navLabels[key]}
             </Link>
           ))}
+          <button
+            onClick={() => { setMobileOpen(false); setChatOpen((c) => !c); }}
+            className="block rounded-lg px-3 py-2 text-left text-sm transition-all hover:opacity-80 md:px-2 md:py-1.5"
+            style={{ color: "var(--color-text)" }}
+          >
+            {currentLocale === "fr" ? "Aide" : "مساعدة"}
+          </button>
           <Link
             href={pathname}
             locale={targetLocale}
@@ -83,6 +92,7 @@ export function Header({ navLabels }: Props) {
           </svg>
         </button>
       </div>
+      <ChatBot open={chatOpen} onToggle={setChatOpen} />
     </header>
   );
 }
