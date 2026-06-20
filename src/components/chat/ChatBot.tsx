@@ -9,12 +9,11 @@ type Message = {
   text: string;
 };
 
-type Props = {
-  open: boolean;
-  onToggle: (v: boolean) => void;
+type ChatContext = {
+  lastIntentId?: string;
 };
 
-export function ChatBot({ open, onToggle }: Props) {
+export function ChatBot({ open, onToggle }: { open: boolean; onToggle: (v: boolean) => void }) {
   const locale = useLocale();
   const t = useTranslations("chat");
   const [messages, setMessages] = useState<Message[]>([
@@ -22,6 +21,8 @@ export function ChatBot({ open, onToggle }: Props) {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [context, setContext] = useState<ChatContext>({});
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -39,13 +40,17 @@ export function ChatBot({ open, onToggle }: Props) {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text.trim(), locale }),
+        body: JSON.stringify({
+          message: text.trim(),
+          locale,
+          context,
+        }),
       });
       const data = await res.json();
-      setMessages((prev) => [
-        ...prev,
-        { role: "bot", text: data.response || t("error") },
-      ]);
+      const botText = data.response || t("error");
+      setMessages((prev) => [...prev, { role: "bot", text: botText }]);
+      if (data.suggestions?.length) setSuggestions(data.suggestions);
+      if (data.context) setContext(data.context);
     } catch {
       setMessages((prev) => [...prev, { role: "bot", text: t("error") }]);
     } finally {
@@ -53,25 +58,40 @@ export function ChatBot({ open, onToggle }: Props) {
     }
   };
 
+  const resetChat = () => {
+    setMessages([{ role: "bot", text: t("welcome") }]);
+    setContext({});
+    setSuggestions([]);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") send(input);
+  };
+
   return (
     <>
       {open && (
         <div
           className="fixed bottom-24 left-6 z-50 flex w-80 flex-col rounded-xl shadow-xl sm:w-96"
-          style={{ backgroundColor: "#fff", maxHeight: "500px" }}
+          style={{ backgroundColor: "#fff", maxHeight: "560px" }}
         >
           <div className="flex items-center justify-between rounded-t-xl px-4 py-3 text-white" style={{ backgroundColor: "var(--color-primary, #8B5CF6)" }}>
             <span className="font-semibold">{t("title")}</span>
-            <button onClick={() => onToggle(false)} className="text-white/80 hover:text-white">&times;</button>
+            <div className="flex items-center gap-2">
+              {messages.length > 1 && (
+                <button onClick={resetChat} className="text-xs text-white/70 hover:text-white" title="Nouvelle conversation">
+                  ↺
+                </button>
+              )}
+              <button onClick={() => onToggle(false)} className="text-white/80 hover:text-white text-lg leading-none">&times;</button>
+            </div>
           </div>
-          <div className="flex-1 space-y-3 overflow-y-auto p-4" style={{ maxHeight: "350px" }}>
+          <div className="flex-1 space-y-3 overflow-y-auto p-4" style={{ minHeight: "200px", maxHeight: "350px" }}>
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div
                   className={`max-w-[80%] whitespace-pre-wrap rounded-xl px-3 py-2 text-sm leading-relaxed ${
-                    m.role === "user"
-                      ? "text-white"
-                      : "text-gray-800"
+                    m.role === "user" ? "text-white" : "text-gray-800"
                   }`}
                   style={{
                     backgroundColor: m.role === "user" ? "var(--color-primary, #8B5CF6)" : "#f3f4f6",
@@ -83,30 +103,28 @@ export function ChatBot({ open, onToggle }: Props) {
             ))}
             {loading && (
               <div className="flex justify-start">
-                <div className="rounded-xl bg-gray-100 px-3 py-2 text-sm text-gray-500">...</div>
+                <div className="rounded-xl bg-gray-100 px-3 py-2 text-sm text-gray-400">...</div>
               </div>
             )}
             <div ref={endRef} />
           </div>
-          {messages.length === 1 && (
-            <div className="flex flex-wrap gap-2 border-t px-4 py-3" style={{ borderColor: "#e5e7eb" }}>
-              {quickActions.map((a) => (
-                <button
-                  key={a.query}
-                  onClick={() => send(a.query)}
-                  className="rounded-full px-3 py-1 text-xs transition-opacity hover:opacity-80"
-                  style={{ backgroundColor: "#f3f4f6", color: "#374151" }}
-                >
-                  {locale === "ar" ? a.labelAr : a.label}
-                </button>
-              ))}
-            </div>
-          )}
+          <div className="flex flex-wrap gap-1.5 border-t px-3 pb-2 pt-2" style={{ borderColor: "#e5e7eb" }}>
+            {(suggestions.length > 0 ? suggestions : quickActions.map((a) => (locale === "ar" ? a.labelAr : a.label))).map((label) => (
+              <button
+                key={label}
+                onClick={() => send(label)}
+                className="rounded-full px-2.5 py-1 text-xs transition-opacity hover:opacity-80"
+                style={{ backgroundColor: "#f3f4f6", color: "#374151", fontSize: "0.7rem" }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
           <div className="flex items-center gap-2 border-t p-3" style={{ borderColor: "#e5e7eb" }}>
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && send(input)}
+              onKeyDown={handleKeyDown}
               placeholder={t("placeholder")}
               className="flex-1 rounded-lg border px-3 py-2 text-sm outline-none"
               style={{ borderColor: "#d1d5db" }}
