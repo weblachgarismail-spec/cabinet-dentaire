@@ -6,11 +6,12 @@ import Link from "next/link";
 type RealisationItem = { title: string; desc: string; badge: string; img: string };
 
 export function RealisationsGallery({ items, locale, showViewAll = true }: { items: RealisationItem[]; locale: string; showViewAll?: boolean }) {
-  const [filter, setFilter] = useState("Tous");
+  const [filter, setFilter] = useState(locale === "ar" ? "الكل" : "Tous");
   const rtl = locale === "ar";
-  const categories = ["Tous", ...Array.from(new Set(items.map((i) => i.badge)))];
+  const allLabel = locale === "ar" ? "الكل" : "Tous";
+  const categories = [allLabel, ...Array.from(new Set(items.map((i) => i.badge)))];
 
-  const filtered = filter === "Tous" ? items : items.filter((i) => i.badge === filter);
+  const filtered = filter === allLabel ? items : items.filter((i) => i.badge === filter);
 
   return (
     <div>

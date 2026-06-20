@@ -50,7 +50,7 @@ export default function BookingModal({ label, className, icon, triggerRef }: Pro
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
 
-    if (!date) { setErrors({ date: "Veuillez choisir une date" }); return; }
+    if (!date) { setErrors({ date: t("form_date_error") }); return; }
 
     setSubmitting(true);
     try {

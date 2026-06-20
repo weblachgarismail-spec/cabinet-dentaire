@@ -1,10 +1,13 @@
 "use client";
 
 import { useRef } from "react";
+import { useLocale } from "next-intl";
 import BookingModal from "@/components/BookingModal";
 
 export function WhatsAppButton() {
   const btnRef = useRef<HTMLButtonElement>(null);
+  const locale = useLocale();
+  const isAr = locale === "ar";
 
   return (
     <>
@@ -16,13 +19,13 @@ export function WhatsAppButton() {
             backgroundColor: "var(--color-primary)",
             boxShadow: "0 4px 20px oklch(60% 0.12 190 / 0.35)",
           }}
-          aria-label="Prendre rendez-vous"
+          aria-label={isAr ? "احجز موعداً" : "Prendre rendez-vous"}
         >
           <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
-          <span className="text-sm font-bold tracking-wide text-white">Prendre RDV</span>
-          <span className="text-base leading-none text-white/70 transition-transform duration-300 group-hover:translate-x-0.5">&gt;</span>
+          <span className="text-sm font-bold tracking-wide text-white">{isAr ? "احجز موعداً" : "Prendre RDV"}</span>
+          <span className="text-base leading-none text-white/70 transition-transform duration-300 group-hover:translate-x-0.5">{isAr ? "←" : ">"}</span>
         </button>
         <a
           href="https://wa.me/212661250137?text=Bonjour%2C%20je%20souhaite%20prendre%20rendez-vous%20%C3%A0%20la%20Clinique%20Dentaire."

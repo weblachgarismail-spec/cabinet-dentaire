@@ -5,6 +5,7 @@ type Props = { locale: string };
 
 export async function Footer({ locale }: Props) {
   const t = await getTranslations({ locale, namespace: "footer" });
+  const nav = await getTranslations({ locale, namespace: "nav" });
 
   return (
     <footer className="relative overflow-hidden py-12 text-center text-sm" style={{ backgroundColor: "oklch(18% 0.02 190)", color: "#fff" }}>
@@ -16,10 +17,10 @@ export async function Footer({ locale }: Props) {
       </div>
       <div className="relative mx-auto max-w-6xl px-4">
         <div className="mb-6 flex flex-wrap justify-center gap-x-8 gap-y-2">
-          <Link href="/about" className="opacity-70 transition-opacity hover:opacity-100">À propos</Link>
-          <Link href="/services" className="opacity-70 transition-opacity hover:opacity-100">Services</Link>
-          <a href="https://wa.me/212661250137" target="_blank" rel="noopener noreferrer" className="opacity-70 transition-opacity hover:opacity-100">WhatsApp Direct</a>
-          <Link href="/contact" className="opacity-70 transition-opacity hover:opacity-100">Contact</Link>
+          <Link href="/about" className="opacity-70 transition-opacity hover:opacity-100">{nav("about")}</Link>
+          <Link href="/services" className="opacity-70 transition-opacity hover:opacity-100">{nav("services")}</Link>
+          <a href="https://wa.me/212661250137" target="_blank" rel="noopener noreferrer" className="opacity-70 transition-opacity hover:opacity-100">{locale === "fr" ? "WhatsApp Direct" : "واتساب مباشر"}</a>
+          <Link href="/contact" className="opacity-70 transition-opacity hover:opacity-100">{nav("contact")}</Link>
         </div>
         <div className="mb-6 flex justify-center gap-6">
           <Link href="/legal" className="opacity-60 underline transition-opacity hover:opacity-100">{t("legal")}</Link>

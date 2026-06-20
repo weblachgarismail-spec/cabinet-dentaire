@@ -653,6 +653,7 @@
                     "confirm_title":  "Demande envoyée !",
                     "confirm_msg":  "Votre demande de rendez-vous pour le {date} a été reçue. Nous vous contacterons par téléphone pour confirmer l\u0027horaire.",
                     "confirm_back":  "Retour à l\u0027accueil",
+                    "form_date_error":  "Veuillez choisir une date",
                     "slot_unavailable":  "Cette date n\u0027est plus disponible",
                     "callback_notice":  "Nous vous rappellerons dans les plus brefs délais pour confirmer votre rendez-vous."
                 },
