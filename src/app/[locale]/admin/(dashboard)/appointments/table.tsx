@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { CalendarView } from "@/components/appointments/CalendarView";
 import { useToast } from "@/components/ui/Toast";
+import { getWhatsAppUrl, getConfirmationMessage } from "@/lib/whatsapp";
 
 type Comment = {
   id: string;
@@ -108,8 +109,10 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
         );
         toast("success", t("toast_status_updated", { status: t(status.toLowerCase()) }));
         router.refresh();
+        return true;
       } else {
         toast("error", t("toast_update_error"));
+        return false;
       }
     } finally {
       setLoading(null);
@@ -392,7 +395,7 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
                   <td className="p-3">
                     <div className="flex gap-2">
                       {canAct && a.status === "PENDING" && (
-                        <button onClick={() => updateStatus(a.id, "CONFIRMED")} disabled={loading === a.id} className="rounded px-2 py-1 text-xs font-medium text-white" style={{ backgroundColor: "#10b981" }}>
+                        <button onClick={async () => { const ok = await updateStatus(a.id, "CONFIRMED"); if (ok) { window.open(getWhatsAppUrl(a.phone, getConfirmationMessage(a.patientName, a.date)), "_blank"); } }} disabled={loading === a.id} className="rounded px-2 py-1 text-xs font-medium text-white" style={{ backgroundColor: "#10b981" }}>
                           {t("confirm_btn")}
                         </button>
                       )}
