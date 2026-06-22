@@ -687,7 +687,7 @@
                     "controller_title":  "Responsable du traitement",
                     "controller_text":  "Le cabinet dentaire situé à [ville] est responsable des données collectées via ce site.",
                     "data_title":  "Données collectées",
-                    "data_text":  "Nous collectons uniquement les données nécessaires à la prise de rendez-vous : nom, prénom, numéro de téléphone, email (optionnel), ville et motif de consultation. Ces données sont stockées de manière sécurisée.",
+                    "data_text":  "Nous collectons uniquement les données nécessaires à la prise de rendez-vous : nom complet et numéro de téléphone. Aucun dossier médical ni historique d\u0027actes n\u0027est conservé. La confidentialité des patients est notre priorité.",
                     "purpose_title":  "Finalité du traitement",
                     "purpose_text":  "Les données sont utilisées exclusivement pour la gestion des rendez-vous et le suivi médical des patients.",
                     "retention_title":  "Durée de conservation",
