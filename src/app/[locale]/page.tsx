@@ -74,7 +74,7 @@ export default async function HomePage({ params }: Props) {
               Cabinet Dentaire
             </div>
 
-            <h1 className="mb-6 text-4xl font-extrabold leading-tight md:text-5xl lg:text-6xl" style={{ color: "var(--color-primary-dark)" }}>
+            <h1 className="mb-6 text-3xl font-extrabold leading-tight sm:text-4xl md:text-5xl lg:text-6xl" style={{ color: "var(--color-primary-dark)" }}>
               {t("title")}
             </h1>
 
@@ -146,7 +146,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* ─── RÉALISATIONS ─── */}
-      <section className="px-4 py-24" style={{ backgroundColor: "oklch(97% 0.015 190 / 0.5)" }}>
+      <section className="px-4 py-16 md:py-24" style={{ backgroundColor: "oklch(97% 0.015 190 / 0.5)" }}>
         <div className="mx-auto max-w-6xl">
           <div className="mb-14 text-center">
             <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>
@@ -166,7 +166,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* ─── POURQUOI NOUS CHOISIR ─── */}
-      <section className="px-4 py-24" style={{ backgroundColor: "#fff" }}>
+      <section className="px-4 py-16 md:py-24" style={{ backgroundColor: "#fff" }}>
         <div className="mx-auto max-w-6xl">
           <div className="mb-14 text-center">
             <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>
@@ -185,7 +185,7 @@ export default async function HomePage({ params }: Props) {
               </p>
             )}
           </div>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
             {((t.raw("whyus") as { items: WhyUsItem[] }).items).map((item, i) => (
               <div key={i} className="card-hover rounded-2xl p-6 text-center shadow-sm transition-all duration-300 hover:-translate-y-1"
                 style={{ backgroundColor: "#fff", border: "1px solid oklch(93% 0.01 190)" }}>
@@ -202,7 +202,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* ─── DOCTOR ─── */}
-      <section className="px-4 py-24" style={{ backgroundColor: "oklch(97% 0.015 190 / 0.5)" }}>
+      <section className="px-4 py-16 md:py-24" style={{ backgroundColor: "oklch(97% 0.015 190 / 0.5)" }}>
         <div className="mx-auto max-w-6xl">
           <div className={`flex flex-col items-center gap-12 md:flex-row ${rtl ? "md:flex-row-reverse" : ""}`}>
             <div className="flex-1">
@@ -257,7 +257,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* ─── SERVICES ─── */}
-      <section className="mx-auto max-w-6xl px-4 py-24" style={{ backgroundColor: "#fff" }}>
+      <section className="mx-auto max-w-6xl px-4 py-16 md:py-24" style={{ backgroundColor: "#fff" }}>
         <div className="mb-14 text-center">
           <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>Nos services</span>
           <h2 className="mb-4 text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
@@ -265,7 +265,7 @@ export default async function HomePage({ params }: Props) {
           </h2>
           <p className="mx-auto max-w-xl leading-relaxed opacity-70">{t("services_desc")}</p>
         </div>
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
           {(tServices.raw("items") as ServiceItem[]).slice(0, 6).map((item, i) => (
             <Link key={item.slug} href={`/${locale}/services/${item.slug}`} className="card-hover group overflow-hidden rounded-2xl shadow-sm" style={{ backgroundColor: "#fff", border: "1px solid oklch(93% 0.01 190)" }}>
               <div className="relative h-44 overflow-hidden">
@@ -291,7 +291,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* ─── TESTIMONIALS ─── */}
-      <section className="px-4 py-24" style={{ backgroundColor: "oklch(97% 0.015 190 / 0.3)" }}>
+      <section className="px-4 py-16 md:py-24" style={{ backgroundColor: "oklch(97% 0.015 190 / 0.3)" }}>
         <div className="mx-auto max-w-6xl">
           <div className="mb-14 text-center">
             <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>
@@ -301,7 +301,7 @@ export default async function HomePage({ params }: Props) {
               {locale === "fr" ? "Ce Que Disent Nos Patients" : "ماذا يقول مرضانا"}
             </h2>
           </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
             {(t.raw("testimonials") as TestimonialItem[]).map((item, i) => (
               <div key={i} className="card-hover flex flex-col rounded-2xl p-6 shadow-sm" style={{ backgroundColor: "#fff", border: "1px solid oklch(90% 0.01 190)" }}>
                 <div className="mb-3 flex gap-0.5">
@@ -324,7 +324,7 @@ export default async function HomePage({ params }: Props) {
 
       {/* ─── FAQ ─── */}
       {(t.raw("faq") as FaqItem[] | undefined) && (
-        <section className="px-4 py-24" style={{ backgroundColor: "#fff" }}>
+          <section className="px-4 py-16 md:py-24" style={{ backgroundColor: "#fff" }}>
           <div className="mx-auto max-w-3xl">
             <div className="mb-12 text-center">
               <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>
@@ -340,7 +340,7 @@ export default async function HomePage({ params }: Props) {
       )}
 
       {/* ─── CTA ─── */}
-      <section className="relative overflow-hidden px-4 py-24 text-center" style={{ background: "linear-gradient(135deg, oklch(92% 0.02 190), #fff)" }}>
+      <section className="relative overflow-hidden px-4 py-16 md:py-24 text-center" style={{ background: "linear-gradient(135deg, oklch(92% 0.02 190), #fff)" }}>
         <div className="anim-blob absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 opacity-[0.03]" style={{ background: "var(--color-primary-dark)" }} />
         <div className="relative mx-auto max-w-xl">
           <h2 className="mb-4 text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>{t("cta_section_title")}</h2>
