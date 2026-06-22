@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import Link from "next/link";
 import { CalendarPicker } from "@/components/booking/CalendarPicker";
 
 type Props = {
@@ -114,7 +115,7 @@ export default function BookingModal({ label, className, icon, triggerRef }: Pro
 
                   <label className="flex cursor-pointer items-start gap-2.5 text-xs opacity-70 hover:opacity-100">
                     <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-4 w-4 rounded" style={{ accentColor: "var(--color-primary)" }} />
-                    <span>{t("form_consent")} <a href="/privacy" className="font-medium underline">{t("form_consent_link")}</a></span>
+                    <span>{t("form_consent")} <Link href={`/${locale}/privacy`} className="font-medium underline">{t("form_consent_link")}</Link></span>
                   </label>
                   {errors.consent && <p className="text-xs text-red-500">{errors.consent}</p>}
 
