@@ -298,8 +298,6 @@
                     "form_submit":  "إرسال الطلب",
                     "form_name_error":  "يرجى إدخال اسمك",
                     "form_phone_error":  "يرجى إدخال رقم هاتف صحيح",
-                    "form_email":  "البريد الإلكتروني (اختياري)",
-                    "form_email_error":  "يرجى إدخال بريد إلكتروني صحيح",
                     "form_consent":  "أوافق على",
                     "form_consent_link":  "سياسة الخصوصية",
                     "form_consent_error":  "يجب الموافقة على سياسة الخصوصية",

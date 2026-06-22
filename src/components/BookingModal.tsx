@@ -29,7 +29,6 @@ export default function BookingModal({ label, className, icon, triggerRef }: Pro
   const [date, setDate] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
@@ -39,7 +38,6 @@ export default function BookingModal({ label, className, icon, triggerRef }: Pro
     setDate(null);
     setName("");
     setPhone("");
-    setEmail("");
     setConsent(false);
     setErrors({});
     setDone(false);
@@ -49,7 +47,6 @@ export default function BookingModal({ label, className, icon, triggerRef }: Pro
     const errs: Record<string, string> = {};
     if (!name.trim()) errs.name = t("form_name_error");
     if (!phone.trim() || phone.trim().length < 7) errs.phone = t("form_phone_error");
-    if (email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) errs.email = t("form_email_error");
     if (!consent) errs.consent = t("form_consent_error");
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
@@ -61,7 +58,7 @@ export default function BookingModal({ label, className, icon, triggerRef }: Pro
       const res = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ date, patientName: name.trim(), phone: phone.trim(), email: email.trim() || undefined }),
+        body: JSON.stringify({ date, patientName: name.trim(), phone: phone.trim() }),
       });
       if (!res.ok) throw new Error();
       setDone(true);
@@ -70,7 +67,7 @@ export default function BookingModal({ label, className, icon, triggerRef }: Pro
     } finally {
       setSubmitting(false);
     }
-  }, [name, phone, email, consent, date, t]);
+  }, [name, phone, consent, date, t]);
 
   const close = () => { setOpen(false); setTimeout(reset, 300); };
 
@@ -115,9 +112,6 @@ export default function BookingModal({ label, className, icon, triggerRef }: Pro
 
                   <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder={t("form_phone")} className="input-modern w-full" style={{ borderColor: errors.phone ? "#ef4444" : undefined }} />
                   {errors.phone && <p className="text-xs text-red-500">{errors.phone}</p>}
-
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t("form_email")} className="input-modern w-full" style={{ borderColor: errors.email ? "#ef4444" : undefined }} />
-                  {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
 
                   <label className="flex cursor-pointer items-start gap-2.5 text-xs opacity-70 hover:opacity-100">
                     <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-4 w-4 rounded" style={{ accentColor: "var(--color-primary)" }} />

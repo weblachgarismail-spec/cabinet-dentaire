@@ -653,8 +653,6 @@
                     "form_submit":  "Envoyer la demande",
                     "form_name_error":  "Veuillez entrer votre nom",
                     "form_phone_error":  "Veuillez entrer un numéro valide",
-                    "form_email":  "Email (optionnel)",
-                    "form_email_error":  "Veuillez entrer un email valide",
                     "form_consent":  "J\u0027accepte la",
                     "form_consent_link":  "politique de confidentialité",
                     "form_consent_error":  "Vous devez accepter la politique de confidentialité",
