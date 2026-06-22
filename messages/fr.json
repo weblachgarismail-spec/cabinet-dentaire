@@ -76,43 +76,49 @@
                                    }
                                ],
                   "realisations":  [
-                                   {
-                                       "title":  "Cas #23",
-                                       "desc":  "Reconstruction complète de la mâchoire supérieure avec implants dentaires.",
-                                       "badge":  "Implants",
-                                       "img":  "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=600&q=85"
-                                   },
-                                   {
-                                       "title":  "Cas #24",
-                                       "desc":  "Couronnes dentaires et smile makeover complet.",
-                                       "badge":  "Couronnes",
-                                       "img":  "https://images.unsplash.com/photo-1598256989800-fe5f95da9787?w=600&q=85"
-                                   },
-                                   {
-                                       "title":  "Cas #25",
-                                       "desc":  "Facettes Emax pour un sourire harmonieux et naturel.",
-                                       "badge":  "Facettes",
-                                       "img":  "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=600&q=85"
-                                   },
-                                   {
-                                       "title":  "Cas #8",
-                                       "desc":  "Facettes céramique pour restauration esthétique antérieure.",
-                                       "badge":  "Facettes",
-                                       "img":  "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&q=85"
-                                   },
-                                   {
-                                       "title":  "Cas #55",
-                                       "desc":  "Blanchiment professionnel — 8 teintes plus claires.",
-                                       "badge":  "Blanchiment",
-                                       "img":  "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=85"
-                                   },
-                                   {
-                                       "title":  "Cas #31",
-                                       "desc":  "Facettes directes pour un sourire hollywoodien.",
-                                       "badge":  "Facettes",
-                                       "img":  "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=600&q=85"
-                                   }
-                               ],
+                                    {
+                                        "title":  "Cas #23",
+                                        "desc":  "Reconstruction complète de la mâchoire supérieure avec implants dentaires.",
+                                        "badge":  "Implants",
+                                        "imgBefore":  "/assets/realisations/cas-23-0.jpeg",
+                                        "imgAfter":  "/assets/realisations/cas-23-1.jpeg"
+                                    },
+                                    {
+                                        "title":  "Cas #24",
+                                        "desc":  "Couronnes dentaires et smile makeover complet.",
+                                        "badge":  "Couronnes",
+                                        "imgBefore":  "/assets/realisations/cas-24-0.JPEG",
+                                        "imgAfter":  "/assets/realisations/cas-24-1.JPEG"
+                                    },
+                                    {
+                                        "title":  "Cas #25",
+                                        "desc":  "Facettes Emax pour un sourire harmonieux et naturel.",
+                                        "badge":  "Facettes",
+                                        "imgBefore":  "/assets/realisations/cas-25-00.jpeg",
+                                        "imgAfter":  "/assets/realisations/cas-25-0.jpeg"
+                                    },
+                                    {
+                                        "title":  "Cas #8",
+                                        "desc":  "Facettes céramique pour restauration esthétique antérieure.",
+                                        "badge":  "Facettes",
+                                        "imgBefore":  "/assets/realisations/cas-08-0.JPEG",
+                                        "imgAfter":  "/assets/realisations/cas-08-1.JPEG"
+                                    },
+                                    {
+                                        "title":  "Cas #55",
+                                        "desc":  "Blanchiment professionnel — 8 teintes plus claires.",
+                                        "badge":  "Blanchiment",
+                                        "imgBefore":  "/assets/realisations/cas-55-0.jpeg",
+                                        "imgAfter":  "/assets/realisations/cas-55-1.jpeg"
+                                    },
+                                    {
+                                        "title":  "Cas #31",
+                                        "desc":  "Facettes directes pour un sourire hollywoodien.",
+                                        "badge":  "Facettes",
+                                        "imgBefore":  "/assets/realisations/cas-31-0.jpeg",
+                                        "imgAfter":  "/assets/realisations/cas-31-0.jpeg"
+                                    }
+                                ],
                     "whyus":  {
                                 "title":  "Pourquoi Clinique Saada ?",
                                 "subtitle":  "L'Excellence Qui Fait la Différence",

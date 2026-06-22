@@ -3,10 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 
-type RealisationItem = { title: string; desc: string; badge: string; img: string };
+type RealisationItem = { title: string; desc: string; badge: string; imgBefore: string; imgAfter: string };
 
 export function RealisationsGallery({ items, locale, showViewAll = true }: { items: RealisationItem[]; locale: string; showViewAll?: boolean }) {
   const [filter, setFilter] = useState(locale === "ar" ? "الكل" : "Tous");
+  const [lightbox, setLightbox] = useState<{ src: string; label: string } | null>(null);
+  const [toggled, setToggled] = useState<Record<number, boolean>>({});
   const rtl = locale === "ar";
   const allLabel = locale === "ar" ? "الكل" : "Tous";
   const categories = [allLabel, ...Array.from(new Set(items.map((i) => i.badge)))];
@@ -35,28 +37,43 @@ export function RealisationsGallery({ items, locale, showViewAll = true }: { ite
         {filtered.map((item, i) => (
           <div key={i} className="card-hover group overflow-hidden rounded-2xl shadow-sm transition-all" style={{ backgroundColor: "#fff" }}>
             <div className="relative">
-              <div className="flex aspect-[4/3] overflow-hidden">
-                <div className="relative w-1/2 overflow-hidden">
-                  <img src={item.img} alt={`${item.title} - Avant`} className="h-full w-full object-cover" loading="lazy" />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(0deg, oklch(0% 0 0 / 0.4) 0%, transparent 40%)" }} />
+              {item.imgBefore === item.imgAfter ? (
+                <div className="relative aspect-[3/2] overflow-hidden cursor-pointer" onClick={() => setLightbox({ src: item.imgBefore, label: item.title })}>
+                  <img src={item.imgBefore} alt={item.title} className="h-full w-full object-cover" loading="lazy" />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity hover:opacity-100" style={{ backgroundColor: "oklch(0% 0 0 / 0.3)" }}>
+                    <svg className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
+                  </div>
                 </div>
-                <div className="relative w-1/2 overflow-hidden">
-                  <div className="absolute left-0 top-0 z-10 h-full w-0.5 shadow-lg" style={{ background: "var(--color-primary)", boxShadow: "0 0 8px 2px oklch(60% 0.12 190 / 0.6)" }} />
-                  <img src={item.img} alt={`${item.title} - Après`} className="h-full w-full object-cover brightness-110 saturate-105" loading="lazy" />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(0deg, oklch(0% 0 0 / 0.4) 0%, transparent 40%)" }} />
-                </div>
-                <span className="absolute left-3 top-3 z-20 rounded-full px-3 py-1 text-xs font-semibold text-white" style={{ backgroundColor: "var(--color-primary)" }}>
-                  {item.badge}
-                </span>
-                <div className={`absolute inset-x-0 bottom-0 z-20 flex justify-center gap-4 pb-3 ${rtl ? "flex-row-reverse" : ""}`}>
-                  <span className="rounded-lg px-3 py-1 text-xs font-semibold text-white/90 backdrop-blur-sm" style={{ backgroundColor: "oklch(0% 0 0 / 0.5)" }}>
-                    {locale === "ar" ? "قبل" : "Avant"}
-                  </span>
-                  <span className="rounded-lg px-3 py-1 text-xs font-semibold text-white/90 backdrop-blur-sm" style={{ backgroundColor: "oklch(60% 0.12 190 / 0.8)" }}>
-                    {locale === "ar" ? "بعد" : "Après"}
-                  </span>
-                </div>
-              </div>
+              ) : (
+                <>
+                  <div className="relative aspect-[3/2] overflow-hidden cursor-pointer" onClick={() => setLightbox({ src: toggled[i] ? item.imgBefore : item.imgAfter, label: toggled[i] ? (locale === "ar" ? "قبل" : "Avant") : (locale === "ar" ? "بعد" : "Après") })}>
+                    <img src={item.imgAfter} alt={`${item.title} - Après`} className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 ${toggled[i] ? "opacity-0 scale-110" : "opacity-100 scale-100"}`} loading="lazy" />
+                    <img src={item.imgBefore} alt={`${item.title} - Avant`} className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 ${toggled[i] ? "opacity-100 scale-100" : "opacity-0 scale-110"}`} loading="lazy" />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity hover:opacity-100" style={{ backgroundColor: "oklch(0% 0 0 / 0.3)" }}>
+                      <svg className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
+                    </div>
+                  </div>
+                  <div className={`absolute inset-x-0 bottom-0 z-10 flex justify-center gap-4 pb-3 ${rtl ? "flex-row-reverse" : ""}`}>
+                    <button
+                      className={`cursor-pointer rounded-lg px-4 py-1.5 text-xs font-semibold transition-all hover:scale-105 ${toggled[i] ? "shadow-md" : "text-white/70 backdrop-blur-sm"}`}
+                      style={{ backgroundColor: toggled[i] ? "var(--color-primary)" : "oklch(0% 0 0 / 0.5)" }}
+                      onClick={() => setToggled(prev => ({ ...prev, [i]: true }))}
+                    >
+                      {locale === "ar" ? "قبل" : "Avant"}
+                    </button>
+                    <button
+                      className={`cursor-pointer rounded-lg px-4 py-1.5 text-xs font-semibold transition-all hover:scale-105 ${!toggled[i] ? "shadow-md" : "text-white/70 backdrop-blur-sm"}`}
+                      style={{ backgroundColor: !toggled[i] ? "var(--color-primary)" : "oklch(0% 0 0 / 0.5)" }}
+                      onClick={() => setToggled(prev => ({ ...prev, [i]: false }))}
+                    >
+                      {locale === "ar" ? "بعد" : "Après"}
+                    </button>
+                  </div>
+                </>
+              )}
+              <span className="absolute left-3 top-3 z-10 rounded-full px-3 py-1 text-xs font-semibold text-white" style={{ backgroundColor: "var(--color-primary)" }}>
+                {item.badge}
+              </span>
             </div>
             <div className="p-5">
               <h3 className="mb-1 font-semibold" style={{ color: "var(--color-primary-dark)" }}>{item.title}</h3>
@@ -72,6 +89,30 @@ export function RealisationsGallery({ items, locale, showViewAll = true }: { ite
             {locale === "ar" ? "عرض المعرض كاملاً" : "Voir la Galerie Complète"}
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={rtl ? "M7 16l-4-4m0 0l4-4m-4 4h18" : "M17 8l4 4m0 0l-4 4m4-4H3"} /></svg>
           </Link>
+        </div>
+      )}
+
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+          onClick={() => setLightbox(null)}
+        >
+          <div className="relative max-h-[90vh] max-w-[90vw]" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setLightbox(null)}
+              className="absolute -right-3 -top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white text-lg font-bold shadow-lg transition-transform hover:scale-110"
+              style={{ color: "var(--color-primary-dark)" }}
+            >
+              &times;
+            </button>
+            <span
+              className="absolute -top-8 left-0 rounded-lg px-3 py-1 text-sm font-semibold text-white"
+              style={{ backgroundColor: lightbox.label === "Avant" || lightbox.label === "قبل" ? "oklch(0% 0 0 / 0.6)" : "var(--color-primary)" }}
+            >
+              {lightbox.label}
+            </span>
+            <img src={lightbox.src} alt={lightbox.label} className="max-h-[85vh] rounded-xl object-contain shadow-2xl" />
+          </div>
         </div>
       )}
     </div>

@@ -18,6 +18,13 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  webpack: (config) => {
+    config.watchOptions = {
+      ...config.watchOptions,
+      ignored: ["**/swapfile.sys", "C:/swapfile.sys"],
+    };
+    return config;
+  },
 };
 
 export default withSentryConfig(withNextIntl(nextConfig), {

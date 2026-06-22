@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { RealisationsGallery } from "@/components/RealisationsGallery";
 
 type Props = { params: Promise<{ locale: string }> };
-type RealisationItem = { title: string; desc: string; badge: string; img: string };
+type RealisationItem = { title: string; desc: string; badge: string; imgBefore: string; imgAfter: string };
 
 export default async function GaleriePage({ params }: Props) {
   const { locale } = await params;
