@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { CalendarView } from "@/components/appointments/CalendarView";
 import { useToast } from "@/components/ui/Toast";
-import { getWhatsAppUrl, getConfirmationMessage } from "@/lib/whatsapp";
+import { getWhatsAppUrl, getConfirmationMessage, getReminderMessage } from "@/lib/whatsapp";
 
 type Comment = {
   id: string;
@@ -412,6 +412,18 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
                       {canAct && a.status === "CONFIRMED" && (
                         <button onClick={() => { setPostponeModal({ id: a.id }); setPostponeDate(""); }} disabled={loading === a.id} className="rounded px-2 py-1 text-xs font-medium text-white" style={{ backgroundColor: "#f59e0b" }}>
                           {t("postpone_btn")}
+                        </button>
+                      )}
+                      {canAct && a.status === "CONFIRMED" && (
+                        <button onClick={async () => {
+                          window.open(getWhatsAppUrl(a.phone, getReminderMessage(a.patientName, a.date)), "_blank");
+                          setLoading(a.id);
+                          const res = await fetch("/api/admin/appointments", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: a.id, status: "CONFIRMED", remindedAt: true }) });
+                          if (res.ok) { setItems((prev) => prev.map((x) => x.id === a.id ? { ...x, remindedAt: new Date().toISOString() } : x)); toast("success", "Rappel envoyé"); router.refresh(); }
+                          else { toast("error", "Erreur lors de l\'envoi du rappel"); }
+                          setLoading(null);
+                        }} disabled={loading === a.id} className="rounded px-2 py-1 text-xs font-medium text-white" style={{ backgroundColor: "#8b5cf6" }}>
+                          {t("remind_btn")}
                         </button>
                       )}
                       {canAct && a.status !== "CANCELLED" && a.status !== "ARRIVED" && a.status !== "MISSED" && a.status !== "POSTPONED" && (

@@ -4,13 +4,26 @@ export function getWhatsAppUrl(phone: string, message: string): string {
   return `https://wa.me/${international}?text=${encodeURIComponent(message)}`;
 }
 
-export function getConfirmationMessage(patientName: string, date: string, time?: string): string {
-  const formattedDate = new Date(date + "T00:00:00.000Z").toLocaleDateString("fr-FR", {
+function formatAppointmentDate(date: string): string {
+  return new Date(date).toLocaleDateString("fr-FR", {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
   });
-  const heure = time || "à confirmer";
-  return `Bonjour ${patientName},\n\nVotre rendez-vous au cabinet dentaire est confirmé pour le ${formattedDate} à ${heure}.\n\nMerci de votre confiance.\n\nCabinet Dentaire`;
+}
+
+function detectTitle(name: string): string {
+  const feminine = name.trim().toLowerCase().endsWith("a") || name.trim().toLowerCase().endsWith("e");
+  return feminine ? "Madame" : "Monsieur";
+}
+
+export function getConfirmationMessage(patientName: string, date: string, time?: string): string {
+  const title = detectTitle(patientName);
+  return `Bonjour ${title} ${patientName},\n\nVotre rendez-vous au cabinet dentaire est confirmé pour le ${formatAppointmentDate(date)} à ${time || "à confirmer"}.\n\nMerci de votre confiance.\n\nCabinet Dentaire`;
+}
+
+export function getReminderMessage(patientName: string, date: string, time?: string): string {
+  const title = detectTitle(patientName);
+  return `Bonjour ${title} ${patientName},\n\nRappel : vous avez rendez-vous au cabinet dentaire aujourd'hui ${time ? "à " + time : ""}.\n\nMerci de votre confiance.\n\nCabinet Dentaire`;
 }
