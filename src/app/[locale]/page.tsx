@@ -1,10 +1,21 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { FAQ } from "@/components/FAQ";
 import BookingModal from "@/components/BookingModal";
 import { RealisationsGallery } from "@/components/RealisationsGallery";
 
 type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "seo" });
+  return {
+    title: t("home_title"),
+    description: t("home_desc"),
+    alternates: { canonical: `/${locale}` },
+  };
+}
 
 type ServiceItem = { title: string; desc: string; slug: string; img: string };
 type FeatureItem = { title: string; desc: string; img: string };

@@ -716,5 +716,22 @@
                    "emergency":  "Urgence : Appelez le +212 5XX-XXXXXX",
                    "legal":  "Mentions légales",
                    "privacy":  "Confidentialité"
-               }
-}
+                },
+    "seo": {
+        "home_title": "Cabinet Dentaire [ville] - Dr. [Nom]",
+        "home_desc": "Cabinet dentaire à [ville]. Soins dentaires pour toute la famille : détartrage, blanchiment, implants, orthodontie et urgences. Prise en charge en douceur.",
+        "about_title": "À propos du Dr. [Nom] - Dentiste à [ville]",
+        "about_desc": "Découvrez le parcours du Dr. [Nom], chirurgien-dentiste à [ville]. Formation internationale et expertise en implantologie et esthétique dentaire.",
+        "services_title": "Nos services dentaires | Cabinet [ville]",
+        "services_desc": "Détartrage, blanchiment, implants dentaires, facettes, orthodontie et soins pédiatriques. Des soins complets pour votre sourire à [ville].",
+        "blog_title": "Blog Santé Dentaire | Cabinet Dentaire [ville]",
+        "blog_desc": "Conseils et informations sur la santé bucco-dentaire : hygiène, soins, traitements et innovations. Suivez l'actualité de votre cabinet dentaire à [ville].",
+        "galerie_title": "Galerie Avant/Après | Cabinet Dentaire [ville]",
+        "galerie_desc": "Découvrez nos réalisations en implantologie, facettes et blanchiment dentaire. Résultats avant/après de nos patients à [ville].",
+        "contact_title": "Contact | Cabinet Dentaire [ville]",
+        "contact_desc": "Contactez le Cabinet Dentaire [ville] pour prendre rendez-vous. Téléphone, adresse et formulaire en ligne.",
+        "privacy_title": "Politique de confidentialité | Cabinet Dentaire [ville]",
+        "privacy_desc": "Politique de confidentialité du Cabinet Dentaire [ville]. Seules les données nécessaires à la prise de rendez-vous sont collectées.",
+        "legal_title": "Mentions légales | Cabinet Dentaire [ville]"
+    }
+ }

@@ -1,7 +1,18 @@
 import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
 import { RealisationsGallery } from "@/components/RealisationsGallery";
 
 type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "seo" });
+  return {
+    title: t("galerie_title"),
+    description: t("galerie_desc"),
+    alternates: { canonical: `/${locale}/galerie` },
+  };
+}
 type RealisationItem = { title: string; desc: string; badge: string; imgBefore: string; imgAfter: string };
 
 export default async function GaleriePage({ params }: Props) {
